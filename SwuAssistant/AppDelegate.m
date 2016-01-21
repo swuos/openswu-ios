@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "GradesTableViewController.h"
+#import "LogInViewController.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +20,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [self.window setRootViewController:[[UIViewController alloc] init]];
+    
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[LogInViewController alloc] init]];
+    [self.window setRootViewController:nvc];
     self.window.backgroundColor = [UIColor whiteColor];
     
     [self.window makeKeyAndVisible];

@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  GradesTableViewController.h
 //  SwuAssistant
 //
 //  Created by ShockHsu on 16/1/21.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface GradesTableViewController : UITableViewController
 
 @end
-
