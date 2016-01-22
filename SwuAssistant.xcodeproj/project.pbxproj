@@ -16,6 +16,7 @@
 		6B2FEF731C509B790001C91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2FEF711C509B790001C91E /* LaunchScreen.storyboard */; };
 		6B2FEF7E1C509B790001C91E /* SwuAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF7D1C509B790001C91E /* SwuAssistantTests.m */; };
 		6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF8C1C50A7560001C91E /* LogInViewController.m */; };
+		6B59FC2C1C523A4D00FB0E82 /* GradesTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */; };
 		D0A8F2CE489302BEE1941443 /* libPods-SwuAssistant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB638C7654476BE1450452EA /* libPods-SwuAssistant.a */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,8 @@
 		6B2FEF7F1C509B790001C91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B2FEF8B1C50A7560001C91E /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		6B2FEF8C1C50A7560001C91E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		6B59FC2A1C523A4D00FB0E82 /* GradesTableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradesTableViewHeaderView.h; sourceTree = "<group>"; };
+		6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradesTableViewHeaderView.m; sourceTree = "<group>"; };
 		DB638C7654476BE1450452EA /* libPods-SwuAssistant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwuAssistant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -107,6 +110,8 @@
 				6B2FEF641C509B790001C91E /* AppDelegate.m */,
 				6B2903A81C50A98600D021B0 /* GradesTableViewController.h */,
 				6B2903A91C50A98600D021B0 /* GradesTableViewController.m */,
+				6B59FC2A1C523A4D00FB0E82 /* GradesTableViewHeaderView.h */,
+				6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */,
 				6B2FEF8B1C50A7560001C91E /* LogInViewController.h */,
 				6B2FEF8C1C50A7560001C91E /* LogInViewController.m */,
 				6B2903AB1C50B42800D021B0 /* Router.h */,
@@ -297,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B59FC2C1C523A4D00FB0E82 /* GradesTableViewHeaderView.m in Sources */,
 				6B2FEF651C509B790001C91E /* AppDelegate.m in Sources */,
 				6B2FEF6E1C509B790001C91E /* SwuAssistant.xcdatamodeld in Sources */,
 				6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */,

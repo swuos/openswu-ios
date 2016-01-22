@@ -7,8 +7,12 @@
 //
 
 #import "GradesTableViewController.h"
+#import "Router.h"
+#import "GradesTableViewHeaderView.h"
 
-@interface GradesTableViewController ()
+@interface GradesTableViewController ()<refresh>
+
+@property (nonatomic, strong) NSArray *dict;
 
 @end
 
@@ -16,40 +20,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.title = @"成绩";
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.dict = @[];
+    [self.tableView setTableHeaderView:[[GradesTableViewHeaderView alloc] init]];
+    [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
+    [self.tableView  registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
+    [Router sharedInstance].delegate = self;
+    [[Router sharedInstance] getGrades];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)refreshWithDict:(NSArray *)dict {
+    self.dict = dict;
+    [self.tableView reloadData];
+    NSLog(@"%@", dict);
 }
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return [self.dict count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+     cell.textLabel.text = self.dict[indexPath.row][@"cj"];
+    cell.detailTextLabel.text = self.dict[indexPath.row][@"kcmc"];
     // Configure the cell...
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

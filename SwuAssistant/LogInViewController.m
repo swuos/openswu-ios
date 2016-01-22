@@ -48,6 +48,9 @@
     [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
     }];
+    
+    self.username.text = @"x352389286";
+    self.userpassword.text = @"123456";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,21 +61,19 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     [hud show:true];
-    
     [[Router sharedInstance] loginWithName:self.username.text AndPassword:self.userpassword.text AndCompletionHandler:^(NSString *cc) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hide:true];
-        });
         
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
 
-        if ([cc containsString:@"handleLoginSuccessed()"]) {
-            hud.labelText = @"Successed";
-        } else {
-            hud.labelText = @"Failed";
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([cc containsString:@"handleLoginSuccessed()"]) {
+                hud.labelText = @"Successed";
+            } else {
+                hud.labelText = @"Failed";
+            }
+        
             [hud show:true];
             [hud hide:true afterDelay:2];
             if ([cc containsString:@"handleLoginSuccessed()"]) {
@@ -80,6 +81,7 @@
                     
                 }];
             }
+
         });
     }];
 }
