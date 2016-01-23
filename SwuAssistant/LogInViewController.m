@@ -10,15 +10,12 @@
 #import "Router.h"
 #import "GradesTableViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <Masonry.h>
-
 
 @interface LogInViewController ()
 
 @property (strong, nonatomic) UITextField *username;
 @property (strong, nonatomic) UITextField *userpassword;
-@property (strong, nonatomic) UIButton *loginButton;
-
+@property (nonatomic,strong) UIButton *loginButton;
 
 @end
 
@@ -26,31 +23,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    float p = [[UIScreen mainScreen] bounds].size.height / 320.0;
+    [self.view setBackgroundColor:[UIColor colorWithRed:51/255.0 green:204/255.0 blue:255/255.0 alpha:1]];
     
-    [self.view addSubview:self.username];
-    [self.view addSubview:self.userpassword];
-    [self.view addSubview:self.loginButton];
+    UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
+    img.frame = CGRectMake(50, 50, 100, 100);
+    img.center = self.view.center;
+    CGRect rect = img.frame;
+    rect.origin.y = 150;
+    img.frame = rect;
     
-    [self.username mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.view).with.offset(10);
-        make.top.equalTo(self.view).with.offset(60);
-        make.trailing.equalTo(self.view).with.offset(-10);
-        make.height.equalTo(@50);
-    }];
+    [self.view addSubview:img];
     
-    [self.userpassword mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.view).with.offset(10);
-        make.top.equalTo(self.username.mas_bottom).with.offset(40);
-        make.trailing.equalTo(self.view).with.offset(-10);
-        make.height.equalTo(@50);
-    }];
+    _username=[[UITextField alloc] initWithFrame:CGRectMake(20, 140*p, self.view.frame.size.width-40, 50)];
+    _username.backgroundColor=[UIColor whiteColor];
+    _username.placeholder=[NSString stringWithFormat:@"Email"];
+    _username.layer.cornerRadius = 5.0;
+    [self.view addSubview:_username];
     
-    [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-    }];
+    _userpassword=[[UITextField alloc] initWithFrame:CGRectMake(20, 140*p + 60, self.view.frame.size.width-40, 50)];
+    _userpassword.backgroundColor=[UIColor whiteColor];
+    _userpassword.placeholder=[NSString stringWithFormat:@"Password"];
+    [_userpassword setSecureTextEntry:true];
+    _userpassword.layer.cornerRadius = 5.0;
+    [self.view addSubview:_userpassword];
     
-    self.username.text = @"x352389286";
-    self.userpassword.text = @"123456";
+    _loginButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_loginButton setFrame:CGRectMake(20, 200*p, self.view.frame.size.width-40, 50)];
+    [_loginButton setTitle:@"Login" forState:UIControlStateNormal];
+    [_loginButton setBackgroundColor:[UIColor colorWithRed:51/255.0 green:102/255.0 blue:255/255.0 alpha:1]];
+    [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _loginButton.layer.cornerRadius = 5.0;
+    [_loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_loginButton];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    _username.text = @"";
+    _userpassword.text = @"";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,8 +70,16 @@
 
 - (void)login {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([self.username.text  isEqual: @""] || [self.userpassword.text  isEqual: @""]) {
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"用户名和密码不能留空";
+        [hud show:true];
+        [hud hide:true afterDelay:2];
+        return;
+    }
     hud.labelText = @"Loading";
     [hud show:true];
+    
     [[Router sharedInstance] loginWithName:self.username.text AndPassword:self.userpassword.text AndCompletionHandler:^(NSString *cc) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hide:true];
@@ -68,50 +87,21 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.mode = MBProgressHUDModeText;
 
-            if ([cc containsString:@"handleLoginSuccessed()"]) {
-                hud.labelText = @"Successed";
+            if ([cc containsString:@"successed"]) {
+                hud.labelText = @"登录成功！😬";
+                [[Router sharedInstance] getGradesInXN:@"2014" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self presentViewController:[[GradesTableViewController alloc] init] animated:true completion:nil];
+                    });
+                }];
             } else {
-                hud.labelText = @"Failed";
+                hud.labelText = @"请检查账户和密码名🤔";
             }
-        
+            
             [hud show:true];
             [hud hide:true afterDelay:2];
-            if ([cc containsString:@"handleLoginSuccessed()"]) {
-                [self presentViewController:[[GradesTableViewController alloc] init] animated:true completion:^{
-                    
-                }];
-            }
-
         });
     }];
 }
-
-#pragma mark - getters
-
-- (UITextField *)username {
-    if (!_username) {
-        _username = [[UITextField alloc] init];
-        _username.placeholder = @"accounts";
-    }
-    return _username;
-}
-
-- (UITextField *)userpassword {
-    if (!_userpassword) {
-        _userpassword = [[UITextField alloc] init];
-        _userpassword.placeholder = @"password";
-    }
-    return _userpassword;
-}
-
-- (UIButton *)loginButton {
-    if (!_loginButton) {
-        _loginButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
-        [_loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _loginButton;
-}
-
 
 @end

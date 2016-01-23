@@ -11,12 +11,12 @@
 		6B2903AD1C50B42800D021B0 /* Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2903AC1C50B42800D021B0 /* Router.m */; };
 		6B2FEF621C509B790001C91E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF611C509B790001C91E /* main.m */; };
 		6B2FEF651C509B790001C91E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF641C509B790001C91E /* AppDelegate.m */; };
-		6B2FEF6E1C509B790001C91E /* SwuAssistant.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF6C1C509B790001C91E /* SwuAssistant.xcdatamodeld */; };
 		6B2FEF701C509B790001C91E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B2FEF6F1C509B790001C91E /* Assets.xcassets */; };
 		6B2FEF731C509B790001C91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B2FEF711C509B790001C91E /* LaunchScreen.storyboard */; };
 		6B2FEF7E1C509B790001C91E /* SwuAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF7D1C509B790001C91E /* SwuAssistantTests.m */; };
 		6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF8C1C50A7560001C91E /* LogInViewController.m */; };
 		6B59FC2C1C523A4D00FB0E82 /* GradesTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */; };
+		6B5CE4871C533BE300291CC2 /* GradesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CE4861C533BE300291CC2 /* GradesTableViewCell.m */; };
 		D0A8F2CE489302BEE1941443 /* libPods-SwuAssistant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB638C7654476BE1450452EA /* libPods-SwuAssistant.a */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +41,6 @@
 		6B2FEF611C509B790001C91E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6B2FEF631C509B790001C91E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6B2FEF641C509B790001C91E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6B2FEF6D1C509B790001C91E /* SwuAssistant.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwuAssistant.xcdatamodel; sourceTree = "<group>"; };
 		6B2FEF6F1C509B790001C91E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B2FEF721C509B790001C91E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B2FEF741C509B790001C91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +51,8 @@
 		6B2FEF8C1C50A7560001C91E /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
 		6B59FC2A1C523A4D00FB0E82 /* GradesTableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradesTableViewHeaderView.h; sourceTree = "<group>"; };
 		6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradesTableViewHeaderView.m; sourceTree = "<group>"; };
+		6B5CE4851C533BE300291CC2 /* GradesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradesTableViewCell.h; sourceTree = "<group>"; };
+		6B5CE4861C533BE300291CC2 /* GradesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradesTableViewCell.m; sourceTree = "<group>"; };
 		DB638C7654476BE1450452EA /* libPods-SwuAssistant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwuAssistant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,20 +107,10 @@
 		6B2FEF5F1C509B790001C91E /* SwuAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				6B2FEF631C509B790001C91E /* AppDelegate.h */,
-				6B2FEF641C509B790001C91E /* AppDelegate.m */,
-				6B2903A81C50A98600D021B0 /* GradesTableViewController.h */,
-				6B2903A91C50A98600D021B0 /* GradesTableViewController.m */,
-				6B59FC2A1C523A4D00FB0E82 /* GradesTableViewHeaderView.h */,
-				6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */,
-				6B2FEF8B1C50A7560001C91E /* LogInViewController.h */,
-				6B2FEF8C1C50A7560001C91E /* LogInViewController.m */,
-				6B2903AB1C50B42800D021B0 /* Router.h */,
-				6B2903AC1C50B42800D021B0 /* Router.m */,
-				6B2FEF6F1C509B790001C91E /* Assets.xcassets */,
-				6B2FEF711C509B790001C91E /* LaunchScreen.storyboard */,
-				6B2FEF741C509B790001C91E /* Info.plist */,
-				6B2FEF6C1C509B790001C91E /* SwuAssistant.xcdatamodeld */,
+				6B5CE48D1C5377E000291CC2 /* Login */,
+				6B5CE48B1C53779400291CC2 /* Grades */,
+				6B5CE48C1C5377C700291CC2 /* NetWorkLayer */,
+				6B5CE48E1C53780300291CC2 /* SourceFiles */,
 				6B2FEF601C509B790001C91E /* Supporting Files */,
 			);
 			path = SwuAssistant;
@@ -128,6 +119,8 @@
 		6B2FEF601C509B790001C91E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6B2FEF631C509B790001C91E /* AppDelegate.h */,
+				6B2FEF641C509B790001C91E /* AppDelegate.m */,
 				6B2FEF611C509B790001C91E /* main.m */,
 			);
 			name = "Supporting Files";
@@ -140,6 +133,47 @@
 				6B2FEF7F1C509B790001C91E /* Info.plist */,
 			);
 			path = SwuAssistantTests;
+			sourceTree = "<group>";
+		};
+		6B5CE48B1C53779400291CC2 /* Grades */ = {
+			isa = PBXGroup;
+			children = (
+				6B2903A81C50A98600D021B0 /* GradesTableViewController.h */,
+				6B2903A91C50A98600D021B0 /* GradesTableViewController.m */,
+				6B5CE4851C533BE300291CC2 /* GradesTableViewCell.h */,
+				6B5CE4861C533BE300291CC2 /* GradesTableViewCell.m */,
+				6B59FC2A1C523A4D00FB0E82 /* GradesTableViewHeaderView.h */,
+				6B59FC2B1C523A4D00FB0E82 /* GradesTableViewHeaderView.m */,
+			);
+			name = Grades;
+			sourceTree = "<group>";
+		};
+		6B5CE48C1C5377C700291CC2 /* NetWorkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				6B2903AB1C50B42800D021B0 /* Router.h */,
+				6B2903AC1C50B42800D021B0 /* Router.m */,
+			);
+			name = NetWorkLayer;
+			sourceTree = "<group>";
+		};
+		6B5CE48D1C5377E000291CC2 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6B2FEF8B1C50A7560001C91E /* LogInViewController.h */,
+				6B2FEF8C1C50A7560001C91E /* LogInViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		6B5CE48E1C53780300291CC2 /* SourceFiles */ = {
+			isa = PBXGroup;
+			children = (
+				6B2FEF6F1C509B790001C91E /* Assets.xcassets */,
+				6B2FEF711C509B790001C91E /* LaunchScreen.storyboard */,
+				6B2FEF741C509B790001C91E /* Info.plist */,
+			);
+			name = SourceFiles;
 			sourceTree = "<group>";
 		};
 		E183160C583833BDC2476AEC /* Frameworks */ = {
@@ -303,8 +337,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B59FC2C1C523A4D00FB0E82 /* GradesTableViewHeaderView.m in Sources */,
+				6B5CE4871C533BE300291CC2 /* GradesTableViewCell.m in Sources */,
 				6B2FEF651C509B790001C91E /* AppDelegate.m in Sources */,
-				6B2FEF6E1C509B790001C91E /* SwuAssistant.xcdatamodeld in Sources */,
 				6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */,
 				6B2FEF621C509B790001C91E /* main.m in Sources */,
 				6B2903AD1C50B42800D021B0 /* Router.m in Sources */,
@@ -503,19 +537,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		6B2FEF6C1C509B790001C91E /* SwuAssistant.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				6B2FEF6D1C509B790001C91E /* SwuAssistant.xcdatamodel */,
-			);
-			currentVersion = 6B2FEF6D1C509B790001C91E /* SwuAssistant.xcdatamodel */;
-			path = SwuAssistant.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 6B2FEF551C509B790001C91E /* Project object */;
 }

@@ -7,8 +7,9 @@
 //
 
 #import "GradesTableViewController.h"
-#import "Router.h"
 #import "GradesTableViewHeaderView.h"
+#import "GradesTableViewCell.h"
+#import "Router.h"
 
 @interface GradesTableViewController ()<refresh>
 
@@ -23,9 +24,11 @@
     self.dict = @[];
     [self.tableView setTableHeaderView:[[GradesTableViewHeaderView alloc] init]];
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-    [self.tableView  registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
+    [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
     [Router sharedInstance].delegate = self;
-    [[Router sharedInstance] getGrades];
+    [[Router sharedInstance] getGradesInXN:@"2015" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+        
+    }];
 }
 
 - (void)refreshWithDict:(NSArray *)dict {
@@ -44,13 +47,25 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    
-    cell.detailTextLabel.text = self.dict[indexPath.row][@"cj"];
-    cell.textLabel.text = self.dict[indexPath.row][@"kcmc"];
-    
+    GradesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        cell.kcmc.text = @"课程名称";
+        cell.cj.text = @"成绩";
+        cell.xf.text = @"学分";
+    } else {
+        cell.kcmc.text = self.dict[indexPath.row][@"kcmc"];
+        cell.cj.text = self.dict[indexPath.row][@"cj"];
+        cell.xf.text = self.dict[indexPath.row][@"xf"];
+    }
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+}
 
 @end
