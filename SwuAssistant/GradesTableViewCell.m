@@ -23,7 +23,7 @@
         rect.origin.x = rect.origin.x + rect.size.width;
         rect.size.width = 45;
         self.cj.frame = rect;
-        rect.origin.x = rect.origin.x + rect.size.width + 30;
+        rect.origin.x = rect.origin.x + rect.size.width + 20;
         self.xf.frame = rect;
     }
     return self;

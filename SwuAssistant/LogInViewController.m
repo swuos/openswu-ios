@@ -11,7 +11,7 @@
 #import "GradesTableViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
-@interface LogInViewController ()
+@interface LogInViewController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) UITextField *username;
 @property (strong, nonatomic) UITextField *userpassword;
@@ -26,11 +26,18 @@
     float p = [[UIScreen mainScreen] bounds].size.height / 320.0;
     [self.view setBackgroundColor:[UIColor colorWithRed:51/255.0 green:204/255.0 blue:255/255.0 alpha:1]];
     
+    UIView *v = [[UIView alloc] initWithFrame:self.view.frame];
+    v.backgroundColor = [UIColor clearColor];
+    
+    [self.view addSubview:v];
+    UITapGestureRecognizer *gg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ress)];
+    [v addGestureRecognizer:gg];
+    
     UIImageView *img = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     img.frame = CGRectMake(50, 50, 100, 100);
     img.center = self.view.center;
     CGRect rect = img.frame;
-    rect.origin.y = 150;
+    rect.origin.y = 50*p;
     img.frame = rect;
     
     [self.view addSubview:img];
@@ -49,7 +56,7 @@
     [self.view addSubview:_userpassword];
     
     _loginButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_loginButton setFrame:CGRectMake(20, 200*p, self.view.frame.size.width-40, 50)];
+    [_loginButton setFrame:CGRectMake(20, 140*p+120, self.view.frame.size.width-40, 50)];
     [_loginButton setTitle:@"Login" forState:UIControlStateNormal];
     [_loginButton setBackgroundColor:[UIColor colorWithRed:51/255.0 green:102/255.0 blue:255/255.0 alpha:1]];
     [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -57,6 +64,14 @@
     [_loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_loginButton];
     
+    
+    _username.delegate = self;
+    _userpassword.delegate = self;
+}
+
+- (void)ress {
+    [self.userpassword resignFirstResponder];
+    [self.username resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -102,6 +117,14 @@
             [hud hide:true afterDelay:2];
         });
     }];
+}
+
+#pragma mark UITextField
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.username resignFirstResponder];
+    [self.userpassword resignFirstResponder];
+    return true;
 }
 
 @end
