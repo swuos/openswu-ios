@@ -13,9 +13,9 @@
 @interface GradesTableViewHeaderView() <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) UIPickerView *pickerViewOne;
+@property (nonatomic, strong) NSMutableArray *arry;
 @property (nonatomic, strong) UIButton *queryButton;
 @property (nonatomic, strong) UIButton *logoutButton;
-@property (nonatomic ,strong) NSMutableArray *arry;
 @property (nonatomic) NSInteger *year;
 @property (nonatomic) NSInteger *sem;
 

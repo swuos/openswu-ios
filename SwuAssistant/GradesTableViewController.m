@@ -11,7 +11,7 @@
 #import "GradesTableViewCell.h"
 #import "Router.h"
 
-@interface GradesTableViewController ()<refresh>
+@interface GradesTableViewController ()<updateData>
 
 @property (nonatomic, strong) NSArray *dict;
 
@@ -26,12 +26,10 @@
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
     [Router sharedInstance].delegate = self;
-    [[Router sharedInstance] getGradesInXN:@"2015" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
-        
-    }];
 }
 
-- (void)refreshWithDict:(NSArray *)dict {
+#pragma mark - The Refresh Delegate
+- (void)updateDataWithDict:(NSArray *)dict {
     self.dict = dict;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
@@ -39,7 +37,6 @@
 }
 
 #pragma mark - Table view data source
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.dict count];

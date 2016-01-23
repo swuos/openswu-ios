@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol refresh <NSObject>
+@protocol updateData <NSObject>
 
-- (void)refreshWithDict:(NSArray *)dict;
+- (void)updateDataWithDict:(NSArray *)dict;
 
 @end
 
@@ -19,11 +19,11 @@
 
 @property (nonatomic, strong) NSString *SWUID;
 
-@property (nonatomic, weak) id<refresh> delegate;
+@property (nonatomic, weak) id<updateData> delegate;
 
 + (Router *)sharedInstance;
 
-- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))blockName;
+- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))completionBlock;
 
 - (void)getGradesInXN:(NSString *)xn andXQ:(NSString *)xq AndCompletionHandler:(void(^)(NSString *))block;
 

@@ -10,7 +10,6 @@
 
 @interface Router() <NSURLSessionDelegate, NSURLSessionDataDelegate>
 
-
 @end
 
 @implementation Router
@@ -24,7 +23,7 @@
     return share;
 }
 
-- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))blockName {
+- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))completionBlock {
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
     [req setHTTPMethod:@"POST"];
     NSString *url1 = @"http://urp6.swu.edu.cn/loginSuccess.portal";
@@ -47,9 +46,9 @@
         NSData *c = [NSData dataWithContentsOfURL:location];
         NSString *string =[[NSString alloc] initWithData:c encoding:NSUTF8StringEncoding];
         if ([string containsString:@"handleLoginSuccessed()"]) {
-            blockName(@"successed");
+            completionBlock(@"successed");
         } else {
-            blockName(@"failed");
+            completionBlock(@"failed");
         }
     }];
     [task resume];
@@ -89,14 +88,12 @@
 
 - (void)getGradesDicInXN:(NSString *)xn andXQ:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
-    //NSString *urlString2  = @"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=222014321210009&xnm=2014&xqm=1&_search=false&nd=1453455799708&queryModel.showCount=15&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=4";
     NSString *str = [xq  isEqual: @"1"] ?  @"3": @"12";
-    NSString *urlString3 = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455799708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, str];
-    NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString3]];
+    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455799708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, str];
+    NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     NSURLSessionTask *task2 = [session dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        //NSLog(@"%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        [self.delegate refreshWithDict:dict[@"items"]];
+        [self.delegate updateDataWithDict:dict[@"items"]];
     }];
     [task2 resume];
 }
