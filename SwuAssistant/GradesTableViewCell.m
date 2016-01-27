@@ -7,8 +7,6 @@
 //
 
 #import "GradesTableViewCell.h"
-#import <Masonry/Masonry.h>
-
 
 @implementation GradesTableViewCell
 
