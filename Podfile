@@ -5,7 +5,6 @@
 source 'https://gitcafe.com/akuandev/Specs.git'
 
 target 'SwuAssistant' do
-pod 'Masonry'
 pod 'MBProgressHUD'
 end
 

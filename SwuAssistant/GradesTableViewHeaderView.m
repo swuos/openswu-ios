@@ -13,12 +13,8 @@
 @interface GradesTableViewHeaderView() <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) UIPickerView *pickerViewOne;
+@property (nonatomic, strong) NSMutableArray *arry;
 @property (nonatomic, strong) UIButton *queryButton;
-@property (nonatomic, strong) UIButton *logoutButton;
-@property (nonatomic ,strong) NSMutableArray *arry;
-@property (nonatomic) NSInteger *year;
-@property (nonatomic) NSInteger *sem;
-
 
 @end
 
@@ -29,6 +25,7 @@
     self = [super init];
     if (self) {
         NSRange range = NSMakeRange(2,4);
+        
         NSString *year = [[[Router sharedInstance] SWUID] substringWithRange:range];
         self.arry = [[NSMutableArray alloc] initWithCapacity:4];
         for (int i = 0; i < 4; i++) {
@@ -37,7 +34,6 @@
         self.frame = CGRectMake(0, 20, [[UIScreen mainScreen] bounds].size.width, 200);
         [self addSubview:self.pickerViewOne];
         [self addSubview:self.queryButton];
-        [self addSubview:self.logoutButton];
     }
     return self;
 }
@@ -51,54 +47,56 @@
     return _pickerViewOne;
 }
 
-- (UIButton *)logoutButton {
-    if (!_logoutButton) {
-        _logoutButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _logoutButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2, 180, [[UIScreen mainScreen] bounds].size.width/2, 20);
-        [_logoutButton setTitle:@"退出" forState:UIControlStateNormal];
-        [_logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _logoutButton;
-}
 
 - (UIButton *)queryButton {
     if (!_queryButton) {
         _queryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _queryButton.frame = CGRectMake(0, 180, [[UIScreen mainScreen] bounds].size.width/2, 20);
+        _queryButton.frame = CGRectMake(0, 180, [[UIScreen mainScreen] bounds].size.width, 20);
         [_queryButton setTitle:@"查询" forState:UIControlStateNormal];
         [_queryButton addTarget:self action:@selector(queryGrades) forControlEvents:UIControlEventTouchUpInside];
     }
     return _queryButton;
 }
 
-- (void)logout {
-    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *topVC = appRootVC.presentedViewController;
-    [topVC dismissViewControllerAnimated:true completion:^{
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userkey"];
-    }];
-}
 
 - (void)queryGrades {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:true];
     hud.labelText = @"正在查询";
     [hud show:true];
-    
-    if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] count] < 2) {
-        NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
-        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
-        [[Router sharedInstance] loginWithName:name AndPassword:password AndCompletionHandler:^(NSString *s) {
-            
-        }];
-    };
-    
+        
     NSInteger xn = [self.pickerViewOne selectedRowInComponent:0];
     NSInteger xq = [self.pickerViewOne selectedRowInComponent:1];
+    if ([(NSString *)self.arry[0] length] != 9) {
+        [hud hide:YES];
+        UIView *view = [[UIApplication sharedApplication] keyWindow];
+        [MBProgressHUD hideAllHUDsForView:view animated:true];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"网络连接失败";
+        [hud show:YES];
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
     [[Router sharedInstance] getGradesInXN:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] andXQ:[NSString stringWithFormat:@"%ld", xq+1] AndCompletionHandler:^(NSString *s) {
+
+        if ([s containsString:@"successed"]) {
+        
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hide:YES];
+                });
+
+        } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [hud hide:true];
+                [hud hide:YES];
+                UIView *view = [[UIApplication sharedApplication] keyWindow];
+                [MBProgressHUD hideAllHUDsForView:view animated:true];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"网络连接失败";
+                [hud show:YES];
+                [hud hide:YES afterDelay:1.5f];
             });
+        }
     }];
 }
 
