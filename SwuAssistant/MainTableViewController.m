@@ -1,0 +1,152 @@
+//
+//  MainTableViewController.m
+//  SwuAssistant
+//
+//  Created by Kric on 16/2/3.
+//  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
+//
+
+#import "MainTableViewController.h"
+#import "GradesTableViewController.h"
+#import "LogInViewController.h"
+#import "Router.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+
+@interface MainTableViewController ()
+
+@property (nonatomic, strong) NSArray<NSString *> *strings;
+@property (nonatomic) NSInteger *count;
+
+@end
+
+@implementation MainTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.count = 0;
+    [self configureNavigationBarItem];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
+    [self.tableView setTableFooterView:[UIView new]];
+    self.title = @"首页";
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];
+    if ([self checkIfLoggedIn]) {
+        if (self.count == 0) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = @"loading";
+            [hud show:YES];
+            [self fetchInfo];
+            _count++;
+        }
+    }
+    
+}
+
+- (void)configureNavigationBarItem {
+    NSString *title = [self checkIfLoggedIn] ? @"登出" : @"登陆";
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    [self.navigationItem setLeftBarButtonItem:leftItem];
+}
+
+- (void)logIn {
+    if ([self checkIfLoggedIn]) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userkey"];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+        [self.navigationItem setLeftBarButtonItem:leftItem];
+        [self.tableView reloadData];
+        return;
+    }
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    [self presentViewController:[[LogInViewController alloc] init] animated:YES completion:^{
+        [self.navigationItem setLeftBarButtonItem:leftItem];
+    }];
+}
+
+- (BOOL)checkIfLoggedIn {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (![self checkIfLoggedIn]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"请登录";
+        [hud show:YES];
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    [self.navigationController pushViewController:[GradesTableViewController new] animated:YES];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"abc" forIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        if ([self checkIfLoggedIn]) {
+            cell.textLabel.text = [NSString stringWithFormat:@"账号%@已登陆",[[NSUserDefaults standardUserDefaults] valueForKey:@"username"]];
+        } else {
+            cell.textLabel.text = @"请点击左上角登陆";
+        }
+    } else {
+        cell.textLabel.text = self.strings[indexPath.row - 1];
+    }
+    return cell;
+}
+
+- (NSArray<NSString *> *)strings {
+    return @[@"成绩查询", @"More"];
+}
+
+- (void)fetchInfo {
+    NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
+    NSString *userpassword = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
+    
+    [[Router sharedInstance] loginWithName:username AndPassword:userpassword AndCompletionHandler:^(NSString *cc) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if ([cc containsString:@"successed"]) {
+                [[Router sharedInstance] getGradesInXN:@"2013" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [MBProgressHUD hideAllHUDsForView:self.view animated:true];
+                    });
+                }];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:true];
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"网络连接失败";
+                    [hud show:YES];
+                    [hud hide:YES afterDelay:1.5f];
+                });
+            }
+        });
+    }];
+}
+
+@end

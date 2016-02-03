@@ -39,10 +39,11 @@
     NSURLSessionTask *task = [session downloadTaskWithRequest:req completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error");
+            completionBlock(@"failed");
             return;
         }
-        [[NSUserDefaults standardUserDefaults] setObject:@"username" forKey:name];
-        [[NSUserDefaults standardUserDefaults] setObject:@"userkey" forKey:password];
+        [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"userkey"];
         NSData *c = [NSData dataWithContentsOfURL:location];
         NSString *string =[[NSString alloc] initWithData:c encoding:NSUTF8StringEncoding];
         if ([string containsString:@"handleLoginSuccessed()"]) {
@@ -65,6 +66,11 @@
     NSMutableURLRequest *request1 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString1]];
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+            return;
+        }
+        NSLog(@"%@", response);
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (!string) {
             return;
@@ -75,7 +81,7 @@
         NSString *userKey = [string substringWithRange:position];
         self.SWUID = userKey;
         [self getGradesDicInXN:xn andXQ:xq];
-        block(@"123");
+        block(@"successed");
     }];
     
     NSURLSessionTask *task0 = [session dataTaskWithRequest:request0 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

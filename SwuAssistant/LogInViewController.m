@@ -10,6 +10,7 @@
 #import "Router.h"
 #import "GradesTableViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "MainTableViewController.h"
 
 @interface LogInViewController () <UITextFieldDelegate>
 
@@ -59,6 +60,7 @@
     [_loginButton setFrame:CGRectMake(20, 140*p+120, self.view.frame.size.width-40, 50)];
     [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
     [_loginButton setBackgroundColor:[UIColor colorWithRed:51/255.0 green:102/255.0 blue:255/255.0 alpha:1]];
+
     [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _loginButton.layer.cornerRadius = 5.0;
     [_loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
@@ -106,7 +108,11 @@
                 hud.labelText = @"登录成功😬";
                 [[Router sharedInstance] getGradesInXN:@"2013" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self presentViewController:[[GradesTableViewController alloc] init] animated:true completion:nil];
+                        
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            
+                        }];
+
                     });
                 }];
             } else {

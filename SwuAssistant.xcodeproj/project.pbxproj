@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AB970071C61E3DF00F9BC53 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */; };
 		6B2903AA1C50A98600D021B0 /* GradesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2903A91C50A98600D021B0 /* GradesTableViewController.m */; };
 		6B2903AD1C50B42800D021B0 /* Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2903AC1C50B42800D021B0 /* Router.m */; };
 		6B2FEF621C509B790001C91E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF611C509B790001C91E /* main.m */; };
@@ -31,6 +32,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AB970051C61E3DF00F9BC53 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
+		0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		0AB970081C61F9EA00F9BC53 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		223328DC8BE643A675FBAA17 /* Pods-SwuAssistant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwuAssistant.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwuAssistant/Pods-SwuAssistant.release.xcconfig"; sourceTree = "<group>"; };
 		693822F5FBF00390AEC1C7D7 /* Pods-SwuAssistant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwuAssistant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwuAssistant/Pods-SwuAssistant.debug.xcconfig"; sourceTree = "<group>"; };
 		6B2903A81C50A98600D021B0 /* GradesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradesTableViewController.h; sourceTree = "<group>"; };
@@ -75,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AB970011C61E36300F9BC53 /* MainInterface */ = {
+			isa = PBXGroup;
+			children = (
+				0AB970051C61E3DF00F9BC53 /* MainTableViewController.h */,
+				0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */,
+			);
+			name = MainInterface;
+			sourceTree = "<group>";
+		};
 		3EA89196BADF0B15F50D8298 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +120,7 @@
 		6B2FEF5F1C509B790001C91E /* SwuAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				0AB970011C61E36300F9BC53 /* MainInterface */,
 				6B5CE48D1C5377E000291CC2 /* Login */,
 				6B5CE48B1C53779400291CC2 /* Grades */,
 				6B5CE48C1C5377C700291CC2 /* NetWorkLayer */,
@@ -179,6 +193,7 @@
 		E183160C583833BDC2476AEC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AB970081C61F9EA00F9BC53 /* SystemConfiguration.framework */,
 				DB638C7654476BE1450452EA /* libPods-SwuAssistant.a */,
 			);
 			name = Frameworks;
@@ -343,6 +358,7 @@
 				6B2FEF621C509B790001C91E /* main.m in Sources */,
 				6B2903AD1C50B42800D021B0 /* Router.m in Sources */,
 				6B2903AA1C50A98600D021B0 /* GradesTableViewController.m in Sources */,
+				0AB970071C61E3DF00F9BC53 /* MainTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

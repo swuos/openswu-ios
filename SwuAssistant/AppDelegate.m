@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
+#import "MainTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +22,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     
-    //UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[LogInViewController alloc] init]];
-    [self.window setRootViewController:[[LogInViewController alloc] init]];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[MainTableViewController alloc] init]];
+    [self.window setRootViewController:nvc];
     self.window.backgroundColor = [UIColor whiteColor];
     
     [self.window makeKeyAndVisible];
