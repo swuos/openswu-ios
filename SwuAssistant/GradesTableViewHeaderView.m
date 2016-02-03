@@ -63,18 +63,10 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:true];
     hud.labelText = @"正在查询";
     [hud show:true];
-    
-//    if ([[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies] count] < 2) {
-//        NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
-//        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
-//        [[Router sharedInstance] loginWithName:name AndPassword:password AndCompletionHandler:^(NSString *s) {
-//            
-//        }];
-//    };
-    
+        
     NSInteger xn = [self.pickerViewOne selectedRowInComponent:0];
     NSInteger xq = [self.pickerViewOne selectedRowInComponent:1];
-    if ([(NSString *)self.arry[0] length] <= 3) {
+    if ([(NSString *)self.arry[0] length] != 9) {
         [hud hide:YES];
         UIView *view = [[UIApplication sharedApplication] keyWindow];
         [MBProgressHUD hideAllHUDsForView:view animated:true];
@@ -85,7 +77,6 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-    NSLog(@"%lu", (unsigned long)[(NSString *)self.arry[0] length]);
     [[Router sharedInstance] getGradesInXN:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] andXQ:[NSString stringWithFormat:@"%ld", xq+1] AndCompletionHandler:^(NSString *s) {
 
         if ([s containsString:@"successed"]) {

@@ -67,10 +67,8 @@
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@", error);
             return;
         }
-        NSLog(@"%@", response);
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (!string) {
             return;

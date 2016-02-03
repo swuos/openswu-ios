@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.count = 0;
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
@@ -43,7 +42,6 @@
             _count++;
         }
     }
-    
 }
 
 - (void)configureNavigationBarItem {
