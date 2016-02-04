@@ -38,8 +38,7 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionTask *task = [session downloadTaskWithRequest:req completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error");
-            completionBlock(@"failed");
+            completionBlock([NSString stringWithFormat:@"%@", error.localizedDescription]);
             return;
         }
         [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"username"];
@@ -67,6 +66,7 @@
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
+            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
             return;
         }
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -93,7 +93,7 @@
 - (void)getGradesDicInXN:(NSString *)xn andXQ:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
     NSString *str = [xq  isEqual: @"1"] ?  @"3": @"12";
-    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455799708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, str];
+    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455899708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, str];
     NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     NSURLSessionTask *task2 = [session dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
