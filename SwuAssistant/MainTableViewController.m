@@ -11,6 +11,7 @@
 #import "LogInViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "SAUser.h"
 
 @interface MainTableViewController ()
 
@@ -21,8 +22,13 @@
 
 @implementation MainTableViewController
 
+- (void)testSAUser {
+    [SAUser saveModel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self testSAUser];
     self.count = 0;
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
@@ -94,11 +100,11 @@
     NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
     NSString *userpassword = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
     
-    [[Router sharedInstance] loginWithName:username AndPassword:userpassword AndCompletionHandler:^(NSString *cc) {
+    [[Router sharedInstance] loginWithName:username Password:userpassword CompletionHandler:^(NSString *cc) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if ([cc containsString:@"successed"]) {
-                [[Router sharedInstance] getGradesInXN:@"2014" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInXN:@"2014" XQ:@"1" CompletionHandler:^(NSString *s) {
                     //Anyway after request has been handled, the hud should be hidden?
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [MBProgressHUD hideAllHUDsForView:self.view animated:true];

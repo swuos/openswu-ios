@@ -97,7 +97,7 @@
     hud.labelText = @"Loading";
     [hud show:true];
     
-    [[Router sharedInstance] loginWithName:self.username.text AndPassword:self.userpassword.text AndCompletionHandler:^(NSString *cc) {
+    [[Router sharedInstance] loginWithName:self.username.text Password:self.userpassword.text CompletionHandler:^(NSString *cc) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hide:true];
         
@@ -106,7 +106,7 @@
 
             if ([cc containsString:@"successed"]) {
                 hud.labelText = @"登录成功😬";
-                [[Router sharedInstance] getGradesInXN:@"2013" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInXN:@"2013" XQ:@"1" CompletionHandler:^(NSString *s) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [self dismissViewControllerAnimated:YES completion:^{

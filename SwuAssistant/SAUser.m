@@ -21,7 +21,7 @@
 }
 
 + (BOOL)saveModel {
-    
+    [[SAUser sharedInstance] createDataBase];
     return NO;
 }
 
@@ -31,13 +31,32 @@
 
 - (FMDatabase *)createDataBase {
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    
-    FMDatabase *db = [[FMDatabase alloc] initWithPath:path];
+    NSString *dbPath = [path stringByAppendingPathComponent:@"abc.db"];
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) {
+        NSLog(@"error");
         return nil;
     } else {
         NSLog(@"%@", db.databasePath);
     }
+    FMResultSet *result = [db executeQuery:@"select * from user where name <> '123'"];
+    while ([result next]) {
+        int userid = [result intForColumnIndex:0];
+        NSString *name = [result stringForColumnIndex:1];
+        NSString *password = [result stringForColumnIndex:2];
+        NSLog(@"%d==%@==%@",userid, name, password);
+    }
+    [db executeUpdate:@"update user set name = 'co' where password = '333' and id = 2"];
+    
+    result = [db executeQuery:@"select * from user"];
+    
+    while ([result next]) {
+        int userid = [result intForColumnIndex:0];
+        NSString *name = [result stringForColumnIndex:1];
+        NSString *password = [result stringForColumnIndex:2];
+        NSLog(@"%d==%@==%@",userid, name, password);
+    }
+    [db close];
     return nil;
 }
 
