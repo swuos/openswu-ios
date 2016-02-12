@@ -14,6 +14,7 @@
 
 @implementation Router
 
+#pragma mark - singleton
 + (Router *)sharedInstance {
     static Router *share = nil;
     static dispatch_once_t onceToken;
@@ -23,9 +24,11 @@
     return share;
 }
 
-- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))completionBlock {
+#pragma mark - network method
+- (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock {
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
     [req setHTTPMethod:@"POST"];
+    // HTTP body
     NSString *url1 = @"http://urp6.swu.edu.cn/loginSuccess.portal";
     NSString *url2 = @"http://urp6.swu.edu.cn/loginFailure.portal";
     NSString *token1 = name;
@@ -38,14 +41,13 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionTask *task = [session downloadTaskWithRequest:req completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error");
-            completionBlock(@"failed");
+            completionBlock([NSString stringWithFormat:@"%@", error.localizedDescription]);
             return;
         }
         [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"username"];
         [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"userkey"];
-        NSData *c = [NSData dataWithContentsOfURL:location];
-        NSString *string =[[NSString alloc] initWithData:c encoding:NSUTF8StringEncoding];
+        NSData *data = [NSData dataWithContentsOfURL:location];
+        NSString *string =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if ([string containsString:@"handleLoginSuccessed()"]) {
             completionBlock(@"successed");
         } else {
@@ -55,7 +57,7 @@
     [task resume];
 }
 
-- (void)getGradesInXN:(NSString *)xn andXQ:(NSString *)xq AndCompletionHandler:(void(^)(NSString *))block{
+- (void)getGradesInXN:(NSString *)xn XQ:(NSString *)xq CompletionHandler:(void(^)(NSString *))block{
     
     NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
     NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
@@ -67,22 +69,38 @@
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
+            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
             return;
         }
+        
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (!string) {
+            block(@"the server has some trouble");
             return;
         }
+        
         NSRange position = [string rangeOfString:@"<input type=\"hidden\" id=\"sessionUserKey\" value=\""];
+        if (position.length <= 0) {
+            block(@"the server has some trouble");
+            return;
+        }
+        
         position.location += position.length;
         position.length = 15;
         NSString *userKey = [string substringWithRange:position];
+        
         self.SWUID = userKey;
+        
         [self getGradesDicInXN:xn andXQ:xq];
+        
         block(@"successed");
     }];
     
     NSURLSessionTask *task0 = [session dataTaskWithRequest:request0 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
+            return;
+        }
         [task1 resume];
     }];
     
@@ -92,12 +110,20 @@
 
 - (void)getGradesDicInXN:(NSString *)xn andXQ:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
-    NSString *str = [xq  isEqual: @"1"] ?  @"3": @"12";
-    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455799708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, str];
+    
+    NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455899708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, xqstr];
+    
     NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    
     NSURLSessionTask *task2 = [session dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            [self.delegate updateDataWithArray:@[@"fail"]];
+            return;
+        }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        [self.delegate updateDataWithDict:dict[@"items"]];
+        [self.delegate updateDataWithArray:dict[@"items"]];
     }];
     [task2 resume];
 }

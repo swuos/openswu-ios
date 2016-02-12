@@ -10,7 +10,7 @@
 
 @protocol updateData <NSObject>
 
-- (void)updateDataWithDict:(NSArray *)dict;
+- (void)updateDataWithArray:(NSArray *)dict;
 
 @end
 
@@ -23,8 +23,8 @@
 
 + (Router *)sharedInstance;
 
-- (void)loginWithName:(NSString *)name AndPassword:(NSString *)password AndCompletionHandler:(void (^)(NSString *))completionBlock;
+- (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock;
 
-- (void)getGradesInXN:(NSString *)xn andXQ:(NSString *)xq AndCompletionHandler:(void(^)(NSString *))block;
+- (void)getGradesInXN:(NSString *)xn XQ:(NSString *)xq CompletionHandler:(void(^)(NSString *))block;
 
 @end

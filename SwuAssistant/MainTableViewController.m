@@ -11,6 +11,7 @@
 #import "LogInViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "SAUser.h"
 
 @interface MainTableViewController ()
 
@@ -21,8 +22,13 @@
 
 @implementation MainTableViewController
 
+- (void)testSAUser {
+    [SAUser saveModel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self testSAUser];
     self.count = 0;
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
@@ -44,38 +50,8 @@
     }
 }
 
-- (void)configureNavigationBarItem {
-    NSString *title = [self checkIfLoggedIn] ? @"登出" : @"登陆";
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
-    [self.navigationItem setLeftBarButtonItem:leftItem];
-}
-
-- (void)logIn {
-    if ([self checkIfLoggedIn]) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userkey"];
-        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
-        [self.navigationItem setLeftBarButtonItem:leftItem];
-        [self.tableView reloadData];
-        return;
-    }
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
-    [self presentViewController:[[LogInViewController alloc] init] animated:YES completion:^{
-        [self.navigationItem setLeftBarButtonItem:leftItem];
-    }];
-}
-
-- (BOOL)checkIfLoggedIn {
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,13 +100,23 @@
     NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
     NSString *userpassword = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
     
-    [[Router sharedInstance] loginWithName:username AndPassword:userpassword AndCompletionHandler:^(NSString *cc) {
+    [[Router sharedInstance] loginWithName:username Password:userpassword CompletionHandler:^(NSString *cc) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if ([cc containsString:@"successed"]) {
-                [[Router sharedInstance] getGradesInXN:@"2013" andXQ:@"1" AndCompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInXN:@"2014" XQ:@"1" CompletionHandler:^(NSString *s) {
+                    //Anyway after request has been handled, the hud should be hidden?
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [MBProgressHUD hideAllHUDsForView:self.view animated:true];
+                        
+                        if (![s containsString:@"successed"]) {
+                            [MBProgressHUD hideAllHUDsForView:self.view animated:true];
+                            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                            hud.mode = MBProgressHUDModeText;
+                            hud.labelText = s;
+                            [hud show:YES];
+                            [hud hide:YES afterDelay:1.5f];
+                        }
                     });
                 }];
             } else {
@@ -145,6 +131,43 @@
             }
         });
     }];
+}
+
+- (void)configureNavigationBarItem {
+    NSString *title = [self checkIfLoggedIn] ? @"登出" : @"登陆";
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    [self.navigationItem setLeftBarButtonItem:leftItem];
+}
+
+- (void)logIn {
+    if ([self checkIfLoggedIn]) {
+        NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = [NSString stringWithFormat:@"账号%@已登出", name];
+        [hud show:YES];
+        [hud hide:YES afterDelay:0.5f];
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userkey"];
+        
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+        [self.navigationItem setLeftBarButtonItem:leftItem];
+        [self.tableView reloadData];
+        return;
+    }
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    [self presentViewController:[[LogInViewController alloc] init] animated:YES completion:^{
+        [self.navigationItem setLeftBarButtonItem:leftItem];
+    }];
+}
+
+- (BOOL)checkIfLoggedIn {
+    if (![[NSUserDefaults standardUserDefaults] valueForKey:@"username"]) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 @end

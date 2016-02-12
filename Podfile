@@ -5,6 +5,7 @@
 source 'https://gitcafe.com/akuandev/Specs.git'
 
 target 'SwuAssistant' do
+pod 'FMDB'
 pod 'MBProgressHUD'
 end
 

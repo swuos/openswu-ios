@@ -29,7 +29,7 @@
 }
 
 #pragma mark - The Refresh Delegate
-- (void)updateDataWithDict:(NSArray *)dict {
+- (void)updateDataWithArray:(NSArray *)dict {
     self.dict = dict;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
