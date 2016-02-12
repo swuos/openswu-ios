@@ -10,7 +10,7 @@
 
 @protocol updateData <NSObject>
 
-- (void)updateDataWithArray:(NSArray *)dict;
+- (void)updateDataWithArray:(NSArray *)array;
 
 @end
 
@@ -25,6 +25,6 @@
 
 - (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock;
 
-- (void)getGradesInXN:(NSString *)xn XQ:(NSString *)xq CompletionHandler:(void(^)(NSString *))block;
+- (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block;
 
 @end

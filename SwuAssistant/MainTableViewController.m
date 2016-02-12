@@ -104,7 +104,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if ([cc containsString:@"successed"]) {
-                [[Router sharedInstance] getGradesInXN:@"2014" XQ:@"1" CompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInAcademicYear:@"2014" Semester:@"1" CompletionHandler:^(NSString *s) {
                     //Anyway after request has been handled, the hud should be hidden?
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [MBProgressHUD hideAllHUDsForView:self.view animated:true];

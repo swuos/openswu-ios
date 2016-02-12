@@ -77,7 +77,7 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-    [[Router sharedInstance] getGradesInXN:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] XQ:[NSString stringWithFormat:@"%ld", xq+1] CompletionHandler:^(NSString *s) {
+    [[Router sharedInstance] getGradesInAcademicYear:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] Semester:[NSString stringWithFormat:@"%ld", xq+1] CompletionHandler:^(NSString *s) {
 
         if ([s containsString:@"successed"]) {
         

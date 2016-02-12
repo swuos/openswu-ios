@@ -57,7 +57,7 @@
     [task resume];
 }
 
-- (void)getGradesInXN:(NSString *)xn XQ:(NSString *)xq CompletionHandler:(void(^)(NSString *))block{
+- (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block{
     
     NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
     NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
@@ -91,7 +91,7 @@
         
         self.SWUID = userKey;
         
-        [self getGradesDicInXN:xn andXQ:xq];
+        [self getGradesDicInXN:year andXQ:semester];
         
         block(@"successed");
     }];
