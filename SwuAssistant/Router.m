@@ -2,7 +2,7 @@
 //  Router.m
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/21.
+//  Created by Kric on 16/1/21.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 

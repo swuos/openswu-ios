@@ -2,7 +2,7 @@
 //  GradesTableViewCell.m
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/23.
+//  Created by Kric on 16/1/23.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 
