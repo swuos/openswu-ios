@@ -9,6 +9,7 @@
 #import "MainTableViewController.h"
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
+#import "CourseViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "SAUser.h"
@@ -64,7 +65,13 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-    [self.navigationController pushViewController:[GradesTableViewController new] animated:YES];
+    UIViewController *controller;
+    if (indexPath.row == 2) {
+        controller = [[CourseViewController alloc] init];
+    } else {
+        controller = [[GradesTableViewController alloc] init];
+    }
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -74,7 +81,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 
@@ -93,7 +100,7 @@
 }
 
 - (NSArray<NSString *> *)strings {
-    return @[@"成绩查询", @"More"];
+    return @[@"成绩查询", @"课表"];
 }
 
 - (void)fetchInfo {
