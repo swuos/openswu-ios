@@ -128,4 +128,31 @@
     [task2 resume];
 }
 
+- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block {
+    NSString *url = @"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=222014321210009";
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setHTTPMethod:@"POST"];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSString *string = [NSString stringWithFormat:@"xnm=2015&xqm=12"];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:data];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@", error);
+        } else {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error: nil];
+            NSArray *array = dict[@"kbList"];
+            NSMutableArray <Course *> *courses = [[NSMutableArray alloc] init];
+            for (NSDictionary *d in array) {
+                Course *c = [Course courseWithName:d[@"kcmc"] Time:d[@"jc"] Week:d[@"xqjmc"] Teacher:d[@"xm"] Classroom:d[@"cdmc"]];
+                [courses addObject:c];
+            }
+            block(courses);
+        }
+    }];
+    [task resume];
+}
+
+
 @end

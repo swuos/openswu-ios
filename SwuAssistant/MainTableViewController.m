@@ -10,6 +10,7 @@
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
 #import "CourseViewController.h"
+#import "CourseCollectionViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "SAUser.h"
@@ -67,6 +68,8 @@
     }
     UIViewController *controller;
     if (indexPath.row == 2) {
+//        UICollectionViewController *c = [[CourseCollectionViewController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
+//        controller = c;
         controller = [[CourseViewController alloc] init];
     } else {
         controller = [[GradesTableViewController alloc] init];

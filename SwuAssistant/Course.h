@@ -16,4 +16,8 @@
 @property (nonatomic, strong) NSString *courseTeacher;
 @property (nonatomic, strong) NSString *courseClassroom;
 
++ (Course *)courseWithName:(NSString *)courseName Time:(NSString *)courseTime Week:(NSString *)courseWeek Teacher:(NSString *)courseTeacher Classroom:(NSString *)course;
+
++ (void)createTable;
+
 @end

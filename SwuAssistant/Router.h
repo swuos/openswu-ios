@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Course.h"
 
 @protocol updateData <NSObject>
 
@@ -26,5 +27,7 @@
 - (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock;
 
 - (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block;
+
+- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block;
 
 @end
