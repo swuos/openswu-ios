@@ -18,6 +18,9 @@
 
 + (Course *)courseWithName:(NSString *)courseName Time:(NSString *)courseTime Week:(NSString *)courseWeek Teacher:(NSString *)courseTeacher Classroom:(NSString *)course;
 
++(NSArray<Course *> *)getCourseFromDataBase;
+
 + (void)createTable;
+
 
 @end

@@ -19,6 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    NSArray *s = [Course getCourseFromDataBase];
+    for (Course *c in s) {
+        NSLog(@"%@", [c description]);
+    }
+    NSLog(@"==========");
     [Course createTable];
     [[Router sharedInstance] fetchCourseContentsCompletionHandler:^(NSArray<Course *> *courses) {
         for (Course *cc in courses) {
