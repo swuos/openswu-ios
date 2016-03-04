@@ -30,6 +30,16 @@
             NSLog(@"%@", [cc description]);
         }
     }];
+    
+    
+    dispatch_queue_t myQueue = dispatch_queue_create("com.swu.edu.cn", DISPATCH_QUEUE_CONCURRENT);
+    
+    dispatch_set_target_queue(myQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0));
+    
+    dispatch_apply(10, myQueue, ^(size_t index) {
+        NSLog(@"%zu", index);
+    });
+
 }
 
 @end

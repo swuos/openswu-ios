@@ -40,7 +40,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView reloadData];
+    
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+    
     if ([self checkIfLoggedIn]) {
         if (self.count == 0) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -163,10 +165,13 @@
         
         UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
         [self.navigationItem setLeftBarButtonItem:leftItem];
-        [self.tableView reloadData];
+        
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+        
         return;
     }
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    
     [self presentViewController:[[LogInViewController alloc] init] animated:YES completion:^{
         [self.navigationItem setLeftBarButtonItem:leftItem];
     }];

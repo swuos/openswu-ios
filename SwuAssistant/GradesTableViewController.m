@@ -32,7 +32,8 @@
 - (void)updateDataWithArray:(NSArray *)dict {
     self.dict = dict;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
+        //[self.tableView reloadData];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
 }
 

@@ -123,6 +123,7 @@
             return;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSLog(@"%@", dict);
         [self.delegate updateDataWithArray:dict[@"items"]];
     }];
     [task2 resume];
