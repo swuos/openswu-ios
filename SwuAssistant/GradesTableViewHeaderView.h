@@ -2,7 +2,7 @@
 //  GradesTableViewHeaderView.h
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/22.
+//  Created by Kric on 16/1/22.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 

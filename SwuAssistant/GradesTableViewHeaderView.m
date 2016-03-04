@@ -2,7 +2,7 @@
 //  GradesTableViewHeaderView.m
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/22.
+//  Created by Kric on 16/1/22.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 
@@ -77,7 +77,7 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-    [[Router sharedInstance] getGradesInXN:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] XQ:[NSString stringWithFormat:@"%ld", xq+1] CompletionHandler:^(NSString *s) {
+    [[Router sharedInstance] getGradesInAcademicYear:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] Semester:[NSString stringWithFormat:@"%ld", xq+1] CompletionHandler:^(NSString *s) {
 
         if ([s containsString:@"successed"]) {
         
@@ -92,7 +92,7 @@
                 [MBProgressHUD hideAllHUDsForView:view animated:true];
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"网络连接失败";
+                hud.labelText = s;
                 [hud show:YES];
                 [hud hide:YES afterDelay:1.5f];
             });

@@ -2,7 +2,7 @@
 //  LogInViewController.m
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/21.
+//  Created by Kric on 16/1/21.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 
@@ -106,7 +106,7 @@
 
             if ([cc containsString:@"successed"]) {
                 hud.labelText = @"登录成功😬";
-                [[Router sharedInstance] getGradesInXN:@"2013" XQ:@"1" CompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInAcademicYear:@"2013" Semester:@"1" CompletionHandler:^(NSString *s) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [self dismissViewControllerAnimated:YES completion:^{

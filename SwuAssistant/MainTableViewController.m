@@ -9,6 +9,8 @@
 #import "MainTableViewController.h"
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
+#import "CourseViewController.h"
+#import "CourseCollectionViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "SAUser.h"
@@ -38,7 +40,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView reloadData];
+    
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+    
     if ([self checkIfLoggedIn]) {
         if (self.count == 0) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -64,7 +68,15 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-    [self.navigationController pushViewController:[GradesTableViewController new] animated:YES];
+    UIViewController *controller;
+    if (indexPath.row == 2) {
+//        UICollectionViewController *c = [[CourseCollectionViewController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
+//        controller = c;
+        controller = [[CourseViewController alloc] init];
+    } else {
+        controller = [[GradesTableViewController alloc] init];
+    }
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -74,7 +86,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 
@@ -93,7 +105,7 @@
 }
 
 - (NSArray<NSString *> *)strings {
-    return @[@"成绩查询", @"More"];
+    return @[@"成绩查询", @"课表"];
 }
 
 - (void)fetchInfo {
@@ -104,7 +116,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if ([cc containsString:@"successed"]) {
-                [[Router sharedInstance] getGradesInXN:@"2014" XQ:@"1" CompletionHandler:^(NSString *s) {
+                [[Router sharedInstance] getGradesInAcademicYear:@"2014" Semester:@"1" CompletionHandler:^(NSString *s) {
                     //Anyway after request has been handled, the hud should be hidden?
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [MBProgressHUD hideAllHUDsForView:self.view animated:true];
@@ -153,10 +165,13 @@
         
         UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
         [self.navigationItem setLeftBarButtonItem:leftItem];
-        [self.tableView reloadData];
+        
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+        
         return;
     }
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"登出" style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
+    
     [self presentViewController:[[LogInViewController alloc] init] animated:YES completion:^{
         [self.navigationItem setLeftBarButtonItem:leftItem];
     }];

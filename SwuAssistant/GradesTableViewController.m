@@ -2,7 +2,7 @@
 //  GradesTableViewController.m
 //  SwuAssistant
 //
-//  Created by ShockHsu on 16/1/21.
+//  Created by Kric on 16/1/21.
 //  Copyright © 2016年 OpenSource Association of SWU. All rights reserved.
 //
 
@@ -32,7 +32,8 @@
 - (void)updateDataWithArray:(NSArray *)dict {
     self.dict = dict;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
+        //[self.tableView reloadData];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
 }
 
