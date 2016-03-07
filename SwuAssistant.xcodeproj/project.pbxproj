@@ -10,8 +10,8 @@
 		0A6953751C8203B70095216F /* CourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953741C8203B70095216F /* CourseViewController.m */; };
 		0A6953781C82B2CD0095216F /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953771C82B2CD0095216F /* Course.m */; };
 		0AB970071C61E3DF00F9BC53 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */; };
-		0AB9700D1C622EA700F9BC53 /* SAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB9700C1C622EA700F9BC53 /* SAUser.m */; };
-		0AF66C571C840BDD00A94B9D /* CourseCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF66C561C840BDD00A94B9D /* CourseCollectionViewController.m */; };
+		0AC42F791C8DBD4B00955918 /* CourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC42F771C8DBD4B00955918 /* CourseTableViewCell.m */; };
+		0AC42F7A1C8DBD4B00955918 /* CourseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AC42F781C8DBD4B00955918 /* CourseTableViewCell.xib */; };
 		6B2903AA1C50A98600D021B0 /* GradesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2903A91C50A98600D021B0 /* GradesTableViewController.m */; };
 		6B2903AD1C50B42800D021B0 /* Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2903AC1C50B42800D021B0 /* Router.m */; };
 		6B2FEF621C509B790001C91E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FEF611C509B790001C91E /* main.m */; };
@@ -42,10 +42,9 @@
 		0A6953771C82B2CD0095216F /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		0AB970051C61E3DF00F9BC53 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
-		0AB9700B1C622EA700F9BC53 /* SAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAUser.h; sourceTree = "<group>"; };
-		0AB9700C1C622EA700F9BC53 /* SAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAUser.m; sourceTree = "<group>"; };
-		0AF66C551C840BDD00A94B9D /* CourseCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCollectionViewController.h; sourceTree = "<group>"; };
-		0AF66C561C840BDD00A94B9D /* CourseCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseCollectionViewController.m; sourceTree = "<group>"; };
+		0AC42F761C8DBD4B00955918 /* CourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewCell.h; sourceTree = "<group>"; };
+		0AC42F771C8DBD4B00955918 /* CourseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableViewCell.m; sourceTree = "<group>"; };
+		0AC42F781C8DBD4B00955918 /* CourseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseTableViewCell.xib; sourceTree = "<group>"; };
 		223328DC8BE643A675FBAA17 /* Pods-SwuAssistant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwuAssistant.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwuAssistant/Pods-SwuAssistant.release.xcconfig"; sourceTree = "<group>"; };
 		693822F5FBF00390AEC1C7D7 /* Pods-SwuAssistant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwuAssistant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwuAssistant/Pods-SwuAssistant.debug.xcconfig"; sourceTree = "<group>"; };
 		6B2903A81C50A98600D021B0 /* GradesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradesTableViewController.h; sourceTree = "<group>"; };
@@ -95,23 +94,22 @@
 			children = (
 				0AB970051C61E3DF00F9BC53 /* MainTableViewController.h */,
 				0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */,
-				0A6953731C8203B70095216F /* CourseViewController.h */,
-				0A6953741C8203B70095216F /* CourseViewController.m */,
-				0AF66C551C840BDD00A94B9D /* CourseCollectionViewController.h */,
-				0AF66C561C840BDD00A94B9D /* CourseCollectionViewController.m */,
-				0A6953761C82B2CD0095216F /* Course.h */,
-				0A6953771C82B2CD0095216F /* Course.m */,
 			);
 			name = MainInterface;
 			sourceTree = "<group>";
 		};
-		0AB9700A1C622E7D00F9BC53 /* Model */ = {
+		0AC681B41C8C279B00F9C004 /* Course */ = {
 			isa = PBXGroup;
 			children = (
-				0AB9700B1C622EA700F9BC53 /* SAUser.h */,
-				0AB9700C1C622EA700F9BC53 /* SAUser.m */,
+				0A6953761C82B2CD0095216F /* Course.h */,
+				0A6953771C82B2CD0095216F /* Course.m */,
+				0A6953731C8203B70095216F /* CourseViewController.h */,
+				0A6953741C8203B70095216F /* CourseViewController.m */,
+				0AC42F761C8DBD4B00955918 /* CourseTableViewCell.h */,
+				0AC42F771C8DBD4B00955918 /* CourseTableViewCell.m */,
+				0AC42F781C8DBD4B00955918 /* CourseTableViewCell.xib */,
 			);
-			name = Model;
+			name = Course;
 			sourceTree = "<group>";
 		};
 		3EA89196BADF0B15F50D8298 /* Pods */ = {
@@ -146,7 +144,7 @@
 		6B2FEF5F1C509B790001C91E /* SwuAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				0AB9700A1C622E7D00F9BC53 /* Model */,
+				0AC681B41C8C279B00F9C004 /* Course */,
 				0AB970011C61E36300F9BC53 /* MainInterface */,
 				6B5CE48D1C5377E000291CC2 /* Login */,
 				6B5CE48B1C53779400291CC2 /* Grades */,
@@ -310,6 +308,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC42F7A1C8DBD4B00955918 /* CourseTableViewCell.xib in Resources */,
 				6B2FEF731C509B790001C91E /* LaunchScreen.storyboard in Resources */,
 				6B2FEF701C509B790001C91E /* Assets.xcassets in Resources */,
 			);
@@ -383,10 +382,9 @@
 				0A6953781C82B2CD0095216F /* Course.m in Sources */,
 				6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */,
 				6B2FEF621C509B790001C91E /* main.m in Sources */,
-				0AF66C571C840BDD00A94B9D /* CourseCollectionViewController.m in Sources */,
 				6B2903AD1C50B42800D021B0 /* Router.m in Sources */,
+				0AC42F791C8DBD4B00955918 /* CourseTableViewCell.m in Sources */,
 				6B2903AA1C50A98600D021B0 /* GradesTableViewController.m in Sources */,
-				0AB9700D1C622EA700F9BC53 /* SAUser.m in Sources */,
 				0AB970071C61E3DF00F9BC53 /* MainTableViewController.m in Sources */,
 				0A6953751C8203B70095216F /* CourseViewController.m in Sources */,
 			);

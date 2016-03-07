@@ -91,7 +91,7 @@
         
         self.SWUID = userKey;
         
-        [self getGradesDicInXN:year andXQ:semester];
+        [self getGradesDicInAcademicYear:year andSemester:semester];
         
         block(@"successed");
     }];
@@ -108,7 +108,7 @@
 
 }
 
-- (void)getGradesDicInXN:(NSString *)xn andXQ:(NSString *)xq {
+- (void)getGradesDicInAcademicYear:(NSString *)xn andSemester:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
     
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";
@@ -123,17 +123,17 @@
             return;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSLog(@"%@", dict);
         [self.delegate updateDataWithArray:dict[@"items"]];
     }];
     [task2 resume];
 }
 
 - (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block {
-    NSString *url = @"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=222014321210009";
+    NSString *url = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=%@", self.SWUID];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sharedSession];
+    // this should be changed for more convience
     NSString *string = [NSString stringWithFormat:@"xnm=2015&xqm=12"];
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
@@ -146,7 +146,7 @@
             NSArray *array = dict[@"kbList"];
             NSMutableArray <Course *> *courses = [[NSMutableArray alloc] init];
             for (NSDictionary *d in array) {
-                Course *c = [Course courseWithName:d[@"kcmc"] Time:d[@"jc"] Week:d[@"xqjmc"] Teacher:d[@"xm"] Classroom:d[@"cdmc"]];
+                Course *c = [Course courseWithName:d[@"kcmc"] Time:d[@"jc"] Week:d[@"xqjmc"] Teacher:d[@"xm"] Classroom:d[@"cdmc"] WeekNumber:d[@"zcd"]];
                 [courses addObject:c];
             }
             block(courses);
@@ -154,6 +154,5 @@
     }];
     [task resume];
 }
-
 
 @end

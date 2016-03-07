@@ -10,10 +10,8 @@
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
 #import "CourseViewController.h"
-#import "CourseCollectionViewController.h"
 #import "Router.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "SAUser.h"
 
 @interface MainTableViewController ()
 
@@ -24,18 +22,15 @@
 
 @implementation MainTableViewController
 
-- (void)testSAUser {
-    [SAUser saveModel];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self testSAUser];
     self.count = 0;
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
     [self.tableView setTableFooterView:[UIView new]];
     self.title = @"首页";
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"Home"] tag:996];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -49,6 +44,7 @@
             hud.labelText = @"loading";
             [hud show:YES];
             [self fetchInfo];
+
             _count++;
         }
     }
@@ -70,8 +66,6 @@
     }
     UIViewController *controller;
     if (indexPath.row == 2) {
-//        UICollectionViewController *c = [[CourseCollectionViewController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
-//        controller = c;
         controller = [[CourseViewController alloc] init];
     } else {
         controller = [[GradesTableViewController alloc] init];

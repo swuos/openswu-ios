@@ -12,15 +12,15 @@
 
 @property (nonatomic, strong) NSString *courseName;
 @property (nonatomic, strong) NSString *courseTime;
-@property (nonatomic, strong) NSString *courseWeek;
+@property (nonatomic, strong) NSString *courseWeekDay;
 @property (nonatomic, strong) NSString *courseTeacher;
 @property (nonatomic, strong) NSString *courseClassroom;
+@property (nonatomic, strong) NSString *courseWeekNumber;
 
-+ (Course *)courseWithName:(NSString *)courseName Time:(NSString *)courseTime Week:(NSString *)courseWeek Teacher:(NSString *)courseTeacher Classroom:(NSString *)course;
++ (Course *)courseWithName:(NSString *)courseName Time:(NSString *)courseTime Week:(NSString *)courseWeek Teacher:(NSString *)courseTeacher Classroom:(NSString *)courseClassroom WeekNumber:(NSString *)weekNumber;
 
-+(NSArray<Course *> *)getCourseFromDataBase;
+//+(NSArray<Course *> *)getCourseFromDataBase;
 
 + (void)createTable;
-
 
 @end

@@ -9,8 +9,12 @@
 #import "CourseViewController.h"
 #import "Course.h"
 #import "Router.h"
+#import "CourseTableViewCell.h"
 
-@interface CourseViewController ()
+@interface CourseViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray <Course *> *courses;
 
 @end
 
@@ -18,28 +22,54 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    NSArray *s = [Course getCourseFromDataBase];
-    for (Course *c in s) {
-        NSLog(@"%@", [c description]);
-    }
-    NSLog(@"==========");
-    [Course createTable];
-    [[Router sharedInstance] fetchCourseContentsCompletionHandler:^(NSArray<Course *> *courses) {
-        for (Course *cc in courses) {
-            NSLog(@"%@", [cc description]);
-        }
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    [self.view addSubview:self.tableView];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CourseTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"HelloCell"];
+    
+    [[Router sharedInstance] fetchCourseContentsCompletionHandler:^(NSArray<Course *> *course) {
+        self.courses = course;
     }];
     
-    
-    dispatch_queue_t myQueue = dispatch_queue_create("com.swu.edu.cn", DISPATCH_QUEUE_CONCURRENT);
-    
-    dispatch_set_target_queue(myQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0));
-    
-    dispatch_apply(10, myQueue, ^(size_t index) {
-        NSLog(@"%zu", index);
-    });
+}
 
+- (void)setCourses:(NSArray<Course *> *)courses {
+    _courses = courses;
+    [Course createTable];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.courses count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CourseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HelloCell" forIndexPath:indexPath];
+    if (!cell) {
+        
+    }
+    cell.courseTeacherLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseClassroom;
+    cell.courseNameLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseName;
+    cell.courseSectionLabel.text = [self.courses[indexPath.row + indexPath.section * 8].courseWeekNumber stringByAppendingString:self.courses[indexPath.row + indexPath.section * 8].courseTime];
+    cell.courseWeekLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseWeekDay;
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 75;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
