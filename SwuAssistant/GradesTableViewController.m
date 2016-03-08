@@ -33,11 +33,6 @@
 #pragma mark - The Refresh Delegate
 - (void)updateDataWithArray:(NSArray *)dict {
     self.dict = dict;
-    if(!dict) {
-        NSLog(@"Null");
-    } else {
-        NSLog(@"%lu", (unsigned long)dict.count);
-    }
     dispatch_async(dispatch_get_main_queue(), ^{
         //[self.tableView reloadData];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
@@ -55,6 +50,8 @@
     GradesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     if ([self.dict count] == 0) {
         cell.kcmc.text = @"这学期还没有成绩哦。";
+        cell.xf.text = @"";
+        cell.cj.text = @"";
         return cell;
     }
     if (indexPath.row == 0) {
