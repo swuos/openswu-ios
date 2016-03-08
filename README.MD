@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xuxiaokang/openswu-ios.svg?branch=master)](https://travis-ci.org/xuxiaokang/openswu-ios)
+
 # About this project
 this is a work powered by swu opensource association.
 Need help or find a bug, just open an issue.
