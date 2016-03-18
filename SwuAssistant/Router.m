@@ -25,7 +25,10 @@
 }
 
 #pragma mark - network method
-- (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock {
+- (void)loginWithName:(NSString *)name
+             Password:(NSString *)password
+    CompletionHandler:(void (^)(NSString *))completionBlock {
+    
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
     [req setHTTPMethod:@"POST"];
     // HTTP body
@@ -57,7 +60,9 @@
     [task resume];
 }
 
-- (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block{
+- (void)getGradesInAcademicYear:(NSString *)year
+                       Semester:(NSString *)semester
+              CompletionHandler:(void(^)(NSString *))block{
     
     NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
     NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
@@ -108,7 +113,8 @@
 
 }
 
-- (void)getGradesDicInAcademicYear:(NSString *)xn andSemester:(NSString *)xq {
+- (void)getGradesDicInAcademicYear:(NSString *)xn
+                       andSemester:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
     
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";

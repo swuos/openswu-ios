@@ -24,9 +24,13 @@
 
 + (Router *)sharedInstance;
 
-- (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock;
+- (void)loginWithName:(NSString *)name
+             Password:(NSString *)password
+    CompletionHandler:(void (^)(NSString *))completionBlock;
 
-- (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block;
+- (void)getGradesInAcademicYear:(NSString *)year
+                       Semester:(NSString *)semester
+              CompletionHandler:(void(^)(NSString *))block;
 
 - (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block;
 

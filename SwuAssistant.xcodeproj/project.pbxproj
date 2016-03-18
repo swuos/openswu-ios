@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A6953751C8203B70095216F /* CourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953741C8203B70095216F /* CourseViewController.m */; };
 		0A6953781C82B2CD0095216F /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953771C82B2CD0095216F /* Course.m */; };
+		0AAB66E81C9C504A00E70B67 /* LogOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB66E61C9C504A00E70B67 /* LogOutViewController.m */; };
+		0AAB66E91C9C504A00E70B67 /* LogOutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB66E71C9C504A00E70B67 /* LogOutViewController.xib */; };
 		0AB970071C61E3DF00F9BC53 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */; };
 		0AC42F791C8DBD4B00955918 /* CourseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC42F771C8DBD4B00955918 /* CourseTableViewCell.m */; };
 		0AC42F7A1C8DBD4B00955918 /* CourseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AC42F781C8DBD4B00955918 /* CourseTableViewCell.xib */; };
@@ -40,6 +42,9 @@
 		0A6953741C8203B70095216F /* CourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseViewController.m; sourceTree = "<group>"; };
 		0A6953761C82B2CD0095216F /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
 		0A6953771C82B2CD0095216F /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		0AAB66E51C9C504A00E70B67 /* LogOutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogOutViewController.h; sourceTree = "<group>"; };
+		0AAB66E61C9C504A00E70B67 /* LogOutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogOutViewController.m; sourceTree = "<group>"; };
+		0AAB66E71C9C504A00E70B67 /* LogOutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogOutViewController.xib; sourceTree = "<group>"; };
 		0AB970051C61E3DF00F9BC53 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		0AB970061C61E3DF00F9BC53 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		0AC42F761C8DBD4B00955918 /* CourseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewCell.h; sourceTree = "<group>"; };
@@ -89,6 +94,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AAB66EA1C9C505400E70B67 /* AccountLogOut */ = {
+			isa = PBXGroup;
+			children = (
+				0AAB66E51C9C504A00E70B67 /* LogOutViewController.h */,
+				0AAB66E61C9C504A00E70B67 /* LogOutViewController.m */,
+				0AAB66E71C9C504A00E70B67 /* LogOutViewController.xib */,
+			);
+			name = AccountLogOut;
+			sourceTree = "<group>";
+		};
 		0AB970011C61E36300F9BC53 /* MainInterface */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +159,7 @@
 		6B2FEF5F1C509B790001C91E /* SwuAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				0AAB66EA1C9C505400E70B67 /* AccountLogOut */,
 				0AC681B41C8C279B00F9C004 /* Course */,
 				0AB970011C61E36300F9BC53 /* MainInterface */,
 				6B5CE48D1C5377E000291CC2 /* Login */,
@@ -310,6 +326,7 @@
 			files = (
 				0AC42F7A1C8DBD4B00955918 /* CourseTableViewCell.xib in Resources */,
 				6B2FEF731C509B790001C91E /* LaunchScreen.storyboard in Resources */,
+				0AAB66E91C9C504A00E70B67 /* LogOutViewController.xib in Resources */,
 				6B2FEF701C509B790001C91E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,6 +399,7 @@
 				0A6953781C82B2CD0095216F /* Course.m in Sources */,
 				6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */,
 				6B2FEF621C509B790001C91E /* main.m in Sources */,
+				0AAB66E81C9C504A00E70B67 /* LogOutViewController.m in Sources */,
 				6B2903AD1C50B42800D021B0 /* Router.m in Sources */,
 				0AC42F791C8DBD4B00955918 /* CourseTableViewCell.m in Sources */,
 				6B2903AA1C50A98600D021B0 /* GradesTableViewController.m in Sources */,

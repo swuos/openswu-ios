@@ -11,6 +11,7 @@
 #import "LogInViewController.h"
 #import "CourseViewController.h"
 #import "Router.h"
+#import "LogOutViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface MainTableViewController ()
@@ -56,6 +57,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 3) {
+        LogOutViewController *vc = [[LogOutViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    
     if (![self checkIfLoggedIn]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -80,7 +87,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 
@@ -99,7 +106,7 @@
 }
 
 - (NSArray<NSString *> *)strings {
-    return @[@"成绩查询", @"课表"];
+    return @[@"成绩查询", @"课表" , @"退出校园网账号"];
 }
 
 - (void)fetchInfo {

@@ -56,10 +56,10 @@
     if (!cell) {
         
     }
-    cell.courseTeacherLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseClassroom;
-    cell.courseNameLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseName;
-    cell.courseSectionLabel.text = [self.courses[indexPath.row + indexPath.section * 8].courseWeekNumber stringByAppendingString:self.courses[indexPath.row + indexPath.section * 8].courseTime];
-    cell.courseWeekLabel.text = self.courses[indexPath.row + indexPath.section * 8].courseWeekDay;
+    cell.courseTeacherLabel.text    = self.courses[indexPath.row].courseClassroom;
+    cell.courseNameLabel.text       = self.courses[indexPath.row].courseName;
+    cell.courseSectionLabel.text    = [self.courses[indexPath.row].courseWeekNumber stringByAppendingString:self.courses[indexPath.row].courseTime];
+    cell.courseWeekLabel.text       = [self.courses[indexPath.row].courseWeekDay stringByAppendingString:self.courses[indexPath.row].courseTeacher];
     
     return cell;
 }
