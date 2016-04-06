@@ -139,14 +139,16 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sharedSession];
-    // this should be changed for more convience
-    NSString *string = [NSString stringWithFormat:@"xnm=2015&xqm=12"];
+    NSString *string = [NSString stringWithFormat:@"xnm=%@&xqm=%@", [self getCurrentYear], [self getCurrentSemester]];
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
+            Course *course = [[Course alloc] init];
+            course.courseName = error.localizedDescription;
+            block(@[course]);
         } else {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error: nil];
             NSArray *array = dict[@"kbList"];
@@ -159,6 +161,28 @@
         }
     }];
     [task resume];
+}
+
+- (NSString *)getCurrentYear {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger y = [calendar component:NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger m = [calendar component:NSCalendarUnitMonth fromDate:[NSDate date]];
+
+    if (m <= 7) {
+        y -= 1;
+    }
+    
+    return [NSString stringWithFormat:@"%ld", (long)y];
+}
+
+- (NSString *)getCurrentSemester {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger c = [calendar component:NSCalendarUnitMonth fromDate:[NSDate date]];
+    if (c >= 9) {
+        return @"1";
+    } else {
+        return @"12";
+    }
 }
 
 @end

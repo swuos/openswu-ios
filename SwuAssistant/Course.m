@@ -19,7 +19,7 @@
     newCourse.courseTeacher = courseTeacher;
     newCourse.courseClassroom = courseClassroom;
     newCourse.courseWeekNumber = weekNumber;
-    [newCourse saveCourse:newCourse];
+    //[newCourse saveCourse:newCourse];
     return newCourse;
 }
 
@@ -68,50 +68,50 @@
 //    return queryResult;
 //}
 
-+ (void)createTable {
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *dbPath = [path stringByAppendingPathComponent:@"course.db"];
-    //NSLog(@"%@", path);
-    FMDatabase *db =[FMDatabase databaseWithPath:dbPath];
-    
-    if (![db open]) {
-        return;
-    }
-    NSString *sql1 = @"DROP TABLE IF EXISTS course";
-    
-    if ([db executeStatements:sql1]) {
-        //NSLog(@"Success");
-    }
-    
-    NSString *sql = @"CREATE TABLE course (id integer primary key,courseName text,courseTime text,courseWeek text,courseTeacher text,courseClassroom text, courseWeekNumber text);";
-    
-    if (![db executeStatements:sql]) {
-        NSLog(@"%@", db.lastErrorMessage);
-    }
-    
-    [db close];
-    
-}
+//+ (void)createTable {
+//    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//    NSString *dbPath = [path stringByAppendingPathComponent:@"course.db"];
+//    //NSLog(@"%@", path);
+//    FMDatabase *db =[FMDatabase databaseWithPath:dbPath];
+//    
+//    if (![db open]) {
+//        return;
+//    }
+//    NSString *sql1 = @"DROP TABLE IF EXISTS course";
+//    
+//    if ([db executeStatements:sql1]) {
+//        //NSLog(@"Success");
+//    }
+//    
+//    NSString *sql = @"CREATE TABLE course (id integer primary key,courseName text,courseTime text,courseWeek text,courseTeacher text,courseClassroom text, courseWeekNumber text);";
+//    
+//    if (![db executeStatements:sql]) {
+//        NSLog(@"%@", db.lastErrorMessage);
+//    }
+//    
+//    [db close];
+//    
+//}
 
-- (BOOL)saveCourse:(Course *)c {
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *dbPath = [path stringByAppendingPathComponent:@"course.db"];
-    
-    FMDatabase *db =[FMDatabase databaseWithPath:dbPath];
-    
-    if (![db open]) {
-        return false;
-    }
-    
-    NSString *sqlString = [NSString stringWithFormat:@"insert into course (id ,courseName ,courseWeek ,courseTeacher ,courseClassroom, courseTime, courseWeekNumber) values (%u,'%@','%@','%@','%@','%@', '%@')", arc4random() % 1000 * arc4random() % 1000,c.courseName, c.courseWeekDay, c.courseTeacher, c.courseClassroom, c.courseTime, c.courseWeekNumber];
-    
-    if (![db executeStatements:sqlString]) {
-        NSLog(@"%@", db.lastErrorMessage);
-    }
-    
-    [db close];
-    return true;
-}
+//- (BOOL)saveCourse:(Course *)c {
+//    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//    NSString *dbPath = [path stringByAppendingPathComponent:@"course.db"];
+//    
+//    FMDatabase *db =[FMDatabase databaseWithPath:dbPath];
+//    
+//    if (![db open]) {
+//        return false;
+//    }
+//    
+//    NSString *sqlString = [NSString stringWithFormat:@"insert into course (id ,courseName ,courseWeek ,courseTeacher ,courseClassroom, courseTime, courseWeekNumber) values (%u,'%@','%@','%@','%@','%@', '%@')", arc4random() % 1000 * arc4random() % 1000,c.courseName, c.courseWeekDay, c.courseTeacher, c.courseClassroom, c.courseTime, c.courseWeekNumber];
+//    
+//    if (![db executeStatements:sqlString]) {
+//        NSLog(@"%@", db.lastErrorMessage);
+//    }
+//    
+//    [db close];
+//    return true;
+//}
 
 - (NSString *)description {
     NSString *descriptionString = [NSString stringWithFormat:@"name:%@ time:%@ week:%@ teacher:%@ classroom:%@", self.courseName, self.courseTime, self.courseWeekDay, self.courseTeacher, self.courseClassroom];

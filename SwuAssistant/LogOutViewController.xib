@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -11,6 +11,7 @@
                 <outlet property="userName" destination="jor-rO-hsP" id="tae-RE-XZk"/>
                 <outlet property="userPassword" destination="awa-vw-TPz" id="46X-69-9w2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="oaA-a7-bVs" id="sX3-Eu-jpC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,7 +20,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jor-rO-hsP">
-                    <rect key="frame" x="200" y="153.5" width="200" height="30"/>
+                    <rect key="frame" x="200" y="153" width="200" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="KJc-tR-m7w"/>
                     </constraints>
@@ -53,19 +54,36 @@
                         <action selector="logOut:" destination="-1" eventType="touchUpInside" id="uAc-bA-r5d"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HRM-WC-e7T">
+                    <rect key="frame" x="270" y="340" width="60" height="30"/>
+                    <state key="normal" title="登陆账号"/>
+                    <connections>
+                        <action selector="login:" destination="-1" eventType="touchUpInside" id="YRF-e1-pSU"/>
+                    </connections>
+                </button>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oaA-a7-bVs">
+                    <rect key="frame" x="0.0" y="370" width="600" height="230"/>
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                </webView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Cg1-yC-SK2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Baj-6c-aWx"/>
                 <constraint firstItem="vs7-YA-QE3" firstAttribute="top" secondItem="Xs7-Dk-o6G" secondAttribute="bottom" constant="40" id="DaQ-9f-Z0P"/>
+                <constraint firstAttribute="trailing" secondItem="oaA-a7-bVs" secondAttribute="trailing" id="FFg-Tb-AEH"/>
                 <constraint firstItem="awa-vw-TPz" firstAttribute="leading" secondItem="jor-rO-hsP" secondAttribute="leading" id="WXA-30-hhd"/>
                 <constraint firstItem="jor-rO-hsP" firstAttribute="leading" secondItem="Xs7-Dk-o6G" secondAttribute="trailing" constant="17" id="YeW-Tl-bY9"/>
                 <constraint firstItem="awa-vw-TPz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YyJ-nr-ui9"/>
+                <constraint firstItem="oaA-a7-bVs" firstAttribute="top" secondItem="HRM-WC-e7T" secondAttribute="bottom" id="foA-6T-QIL"/>
+                <constraint firstItem="HRM-WC-e7T" firstAttribute="top" secondItem="Cg1-yC-SK2" secondAttribute="bottom" constant="25" id="hUB-ss-sTU"/>
                 <constraint firstItem="Cg1-yC-SK2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="htY-F7-Yuf"/>
+                <constraint firstAttribute="bottom" secondItem="oaA-a7-bVs" secondAttribute="bottom" id="lrx-Y7-6uJ"/>
                 <constraint firstItem="awa-vw-TPz" firstAttribute="centerY" secondItem="vs7-YA-QE3" secondAttribute="centerY" id="nd0-bO-nYj"/>
                 <constraint firstItem="awa-vw-TPz" firstAttribute="leading" secondItem="vs7-YA-QE3" secondAttribute="trailing" constant="17" id="qUp-5M-3F4"/>
+                <constraint firstItem="HRM-WC-e7T" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qwC-9C-NH2"/>
                 <constraint firstItem="jor-rO-hsP" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="sU1-eL-GJs"/>
                 <constraint firstItem="jor-rO-hsP" firstAttribute="centerY" secondItem="Xs7-Dk-o6G" secondAttribute="centerY" id="uwk-37-ft9"/>
+                <constraint firstItem="oaA-a7-bVs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xgj-FY-kRy"/>
                 <constraint firstItem="Xs7-Dk-o6G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" constant="150" id="zdp-fB-d12"/>
             </constraints>
         </view>

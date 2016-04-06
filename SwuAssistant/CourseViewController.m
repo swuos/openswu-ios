@@ -37,7 +37,7 @@
 
 - (void)setCourses:(NSArray<Course *> *)courses {
     _courses = courses;
-    [Course createTable];
+    //[Course createTable];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });

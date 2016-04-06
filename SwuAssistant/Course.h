@@ -21,6 +21,6 @@
 
 //+(NSArray<Course *> *)getCourseFromDataBase;
 
-+ (void)createTable;
+//+ (void)createTable;
 
 @end
