@@ -10,10 +10,9 @@
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
 #import "CourseViewController.h"
-#import "CourseCollectionViewController.h"
 #import "Router.h"
+#import "LogOutViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "SAUser.h"
 
 @interface MainTableViewController ()
 
@@ -24,18 +23,15 @@
 
 @implementation MainTableViewController
 
-- (void)testSAUser {
-    [SAUser saveModel];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self testSAUser];
     self.count = 0;
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
     [self.tableView setTableFooterView:[UIView new]];
     self.title = @"首页";
+    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"Home"] tag:996];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -49,6 +45,7 @@
             hud.labelText = @"loading";
             [hud show:YES];
             [self fetchInfo];
+
             _count++;
         }
     }
@@ -60,6 +57,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 3) {
+        LogOutViewController *vc = [[LogOutViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    
     if (![self checkIfLoggedIn]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -70,8 +73,6 @@
     }
     UIViewController *controller;
     if (indexPath.row == 2) {
-//        UICollectionViewController *c = [[CourseCollectionViewController alloc] initWithCollectionViewLayout:[UICollectionViewFlowLayout new]];
-//        controller = c;
         controller = [[CourseViewController alloc] init];
     } else {
         controller = [[GradesTableViewController alloc] init];
@@ -86,7 +87,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 
@@ -105,7 +106,7 @@
 }
 
 - (NSArray<NSString *> *)strings {
-    return @[@"成绩查询", @"课表"];
+    return @[@"成绩查询", @"课表" , @"退出校园网账号"];
 }
 
 - (void)fetchInfo {

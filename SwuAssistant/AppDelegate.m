@@ -23,6 +23,7 @@
     
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[MainTableViewController alloc] init]];
+    // MainViewController *nvc = [[MainViewController alloc] init];
     [self.window setRootViewController:nvc];
     self.window.backgroundColor = [UIColor whiteColor];
     

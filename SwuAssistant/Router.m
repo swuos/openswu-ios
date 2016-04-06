@@ -25,7 +25,10 @@
 }
 
 #pragma mark - network method
-- (void)loginWithName:(NSString *)name Password:(NSString *)password CompletionHandler:(void (^)(NSString *))completionBlock {
+- (void)loginWithName:(NSString *)name
+             Password:(NSString *)password
+    CompletionHandler:(void (^)(NSString *))completionBlock {
+    
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
     [req setHTTPMethod:@"POST"];
     // HTTP body
@@ -57,7 +60,9 @@
     [task resume];
 }
 
-- (void)getGradesInAcademicYear:(NSString *)year Semester:(NSString *)semester CompletionHandler:(void(^)(NSString *))block{
+- (void)getGradesInAcademicYear:(NSString *)year
+                       Semester:(NSString *)semester
+              CompletionHandler:(void(^)(NSString *))block{
     
     NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
     NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
@@ -91,7 +96,7 @@
         
         self.SWUID = userKey;
         
-        [self getGradesDicInXN:year andXQ:semester];
+        [self getGradesDicInAcademicYear:year andSemester:semester];
         
         block(@"successed");
     }];
@@ -108,7 +113,8 @@
 
 }
 
-- (void)getGradesDicInXN:(NSString *)xn andXQ:(NSString *)xq {
+- (void)getGradesDicInAcademicYear:(NSString *)xn
+                       andSemester:(NSString *)xq {
     NSURLSession *session = [NSURLSession sharedSession];
     
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";
@@ -123,30 +129,32 @@
             return;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSLog(@"%@", dict);
         [self.delegate updateDataWithArray:dict[@"items"]];
     }];
     [task2 resume];
 }
 
 - (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block {
-    NSString *url = @"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=222014321210009";
+    NSString *url = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=%@", self.SWUID];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sharedSession];
-    NSString *string = [NSString stringWithFormat:@"xnm=2015&xqm=12"];
+    NSString *string = [NSString stringWithFormat:@"xnm=%@&xqm=%@", [self getCurrentYear], [self getCurrentSemester]];
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
+            Course *course = [[Course alloc] init];
+            course.courseName = error.localizedDescription;
+            block(@[course]);
         } else {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error: nil];
             NSArray *array = dict[@"kbList"];
             NSMutableArray <Course *> *courses = [[NSMutableArray alloc] init];
             for (NSDictionary *d in array) {
-                Course *c = [Course courseWithName:d[@"kcmc"] Time:d[@"jc"] Week:d[@"xqjmc"] Teacher:d[@"xm"] Classroom:d[@"cdmc"]];
+                Course *c = [Course courseWithName:d[@"kcmc"] Time:d[@"jc"] Week:d[@"xqjmc"] Teacher:d[@"xm"] Classroom:d[@"cdmc"] WeekNumber:d[@"zcd"]];
                 [courses addObject:c];
             }
             block(courses);
@@ -155,5 +163,26 @@
     [task resume];
 }
 
+- (NSString *)getCurrentYear {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger y = [calendar component:NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger m = [calendar component:NSCalendarUnitMonth fromDate:[NSDate date]];
+
+    if (m <= 7) {
+        y -= 1;
+    }
+    
+    return [NSString stringWithFormat:@"%ld", (long)y];
+}
+
+- (NSString *)getCurrentSemester {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger c = [calendar component:NSCalendarUnitMonth fromDate:[NSDate date]];
+    if (c >= 9) {
+        return @"1";
+    } else {
+        return @"12";
+    }
+}
 
 @end

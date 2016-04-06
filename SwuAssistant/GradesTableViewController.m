@@ -26,6 +26,8 @@
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
     [Router sharedInstance].delegate = self;
+    
+    self.dict = @[@""];
 }
 
 #pragma mark - The Refresh Delegate
@@ -40,12 +42,18 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.dict count];
+    return [self.dict count] != 0 ? [self.dict count] : 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     GradesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    if ([self.dict count] == 0) {
+        cell.kcmc.text = @"这学期还没有成绩哦。";
+        cell.xf.text = @"";
+        cell.cj.text = @"";
+        return cell;
+    }
     if (indexPath.row == 0) {
         cell.kcmc.text = @"课程名称";
         cell.cj.text = @"成绩";
