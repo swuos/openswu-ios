@@ -179,7 +179,7 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger c = [calendar component:NSCalendarUnitMonth fromDate:[NSDate date]];
     if (c >= 9) {
-        return @"1";
+        return @"3";
     } else {
         return @"12";
     }

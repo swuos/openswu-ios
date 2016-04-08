@@ -8,7 +8,7 @@
 
 #import "LogOutViewController.h"
 
-NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head><body><p>请检查你是不是连接到了swu-wifi或者swu-dorm-wifi</p></body></html>";
+static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head><body><p>请检查你是不是连接到了swu-wifi或者swu-dorm-wifi</p></body></html>";
 
 @interface LogOutViewController () <NSURLSessionTaskDelegate>
 
@@ -51,7 +51,7 @@ NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head>
         if (task1) {
             [task1 cancel];
         }
-        NSLog(@"%d", __LINE__);
+        //NSLog(@"%d", __LINE__);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.webView loadHTMLString:stringDecodingByUTF8 baseURL:nil];
         });
@@ -65,7 +65,7 @@ NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head>
             self.flag ++;
             return ;
         }
-        NSLog(@"%lld", response.expectedContentLength);
+        //NSLog(@"%lld", response.expectedContentLength);
         NSData *data = [NSData dataWithContentsOfURL:location];
         NSString *stringDecodingByUTF8 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
@@ -76,7 +76,7 @@ NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head>
     }];
     [task1 resume];
     
-    NSLog(@"%@", self.session);
+    //NSLog(@"%@", self.session);
 }
 
 - (IBAction)logOut:(UIButton *)sender {
@@ -124,8 +124,9 @@ NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></title></head>
     _flag = flag;
     if (self.flag == 2) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.webView loadHTMLString:kErrorHTMLString baseURL:nil];
+            [self.webView loadHTMLString:(NSString *)kErrorHTMLString baseURL:nil];
         });
+        self.flag = 0;
     }
 }
 
