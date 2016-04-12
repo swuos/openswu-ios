@@ -7,8 +7,9 @@
 //
 
 #import "Router.h"
+#import "Course.h"
 
-@interface Router() <NSURLSessionDelegate, NSURLSessionDataDelegate>
+@interface Router() 
 
 @end
 
