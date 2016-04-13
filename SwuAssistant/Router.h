@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Course.h"
+@class Course;
 
 @protocol updateData <NSObject>
 

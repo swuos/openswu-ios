@@ -8,6 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+#import "Router.h"
+
+
 @interface SwuAssistantTests : XCTestCase
 
 @end
@@ -24,17 +27,29 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    XCTAssert(1 == 1);
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testLogin {
+    Router *r = [Router sharedInstance];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"test"];
+    
+    [r loginWithName:@"x352389286" Password:@"123456" CompletionHandler:^(NSString *string) {
+        [expectation fulfill];
+        XCTAssert([string containsString:@"successed"] == true, @"Server may be down");
+    }];
+    
+    [self waitForExpectationsWithTimeout:10.0 handler:^(NSError * _Nullable error) {
+        
+    }];
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
+- (void)testGetGrade {
+    Router *r = [Router sharedInstance];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"tex"];
+    [r getGradesInAcademicYear:@"2015" Semester:@"1" CompletionHandler:^(NSString *resultString) {
+        [expectation fulfill];
+        XCTAssertEqual(@"successed", resultString, "server may be down");
     }];
+    
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
 @end
