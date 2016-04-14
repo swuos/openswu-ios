@@ -37,7 +37,6 @@
 
 - (void)setCourses:(NSArray<Course *> *)courses {
     _courses = courses;
-    //[Course createTable];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
@@ -53,9 +52,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CourseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HelloCell" forIndexPath:indexPath];
-    if (!cell) {
-        
-    }
+
     cell.courseTeacherLabel.text    = self.courses[indexPath.row].courseClassroom;
     cell.courseNameLabel.text       = self.courses[indexPath.row].courseName;
     cell.courseSectionLabel.text    = [self.courses[indexPath.row].courseWeekNumber stringByAppendingString:self.courses[indexPath.row].courseTime];

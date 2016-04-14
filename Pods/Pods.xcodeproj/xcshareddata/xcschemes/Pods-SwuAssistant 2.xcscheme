@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9F12FB4A63E20F601CFB2E64A65B57C1"
-               BuildableName = "libFMDB.a"
-               BlueprintName = "FMDB"
+               BlueprintIdentifier = "B30658B5588276DFCFB968FD31B2F680"
+               BuildableName = "libPods-SwuAssistant.a"
+               BlueprintName = "Pods-SwuAssistant"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9F12FB4A63E20F601CFB2E64A65B57C1"
-            BuildableName = "libFMDB.a"
-            BlueprintName = "FMDB"
+            BlueprintIdentifier = "B30658B5588276DFCFB968FD31B2F680"
+            BuildableName = "libPods-SwuAssistant.a"
+            BlueprintName = "Pods-SwuAssistant"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

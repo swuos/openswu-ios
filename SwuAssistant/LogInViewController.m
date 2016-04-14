@@ -69,6 +69,7 @@
     
     _username.delegate = self;
     _userpassword.delegate = self;
+
 }
 
 - (void)hideTheKeyBoard {

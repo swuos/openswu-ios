@@ -7,9 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "GradesTableViewController.h"
-#import "LogInViewController.h"
 #import "MainTableViewController.h"
+#import "Router.h"
 
 @interface AppDelegate ()
 
@@ -23,7 +22,6 @@
     
     
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[MainTableViewController alloc] init]];
-    // MainViewController *nvc = [[MainViewController alloc] init];
     [self.window setRootViewController:nvc];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -46,6 +44,13 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"]) {
+        NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
+        NSString *pass = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
+         [[Router sharedInstance] loginWithName: name Password: pass CompletionHandler:^(NSString *cc) {
+             
+         }];
+    }
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
