@@ -35,7 +35,7 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
     NSString *dormWifiBody = [NSString stringWithFormat:@"username=%@&password=%@&loginTime=%f", [self.userName.text lowercaseString], self.userPassword.text, [[NSDate date] timeIntervalSince1970]];
     
     [wifiRequest setHTTPMethod:@"POST"];
-    [wifiRequest setTimeoutInterval:3.f];
+    [wifiRequest setTimeoutInterval:1.5f];
     [wifiRequest setHTTPBody:[WifiBody dataUsingEncoding:NSUTF8StringEncoding]];
     
     [wifiRequest setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
@@ -45,7 +45,6 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
     [dormWifiRequest setTimeoutInterval:3.f];
     [dormWifiRequest setHTTPBody:[dormWifiBody dataUsingEncoding:NSUTF8StringEncoding]];
     
-    NSURLSessionTask *task1;
     NSURLSessionTask *task = [self.session downloadTaskWithRequest:wifiRequest completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             self.flag ++;
@@ -71,7 +70,7 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
     }];
     [task resume];
     
-    task1 = [self.session downloadTaskWithRequest:dormWifiRequest completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionTask *task1 = [self.session downloadTaskWithRequest:dormWifiRequest completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             self.flag ++;
             return ;
@@ -80,8 +79,6 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
         NSString *stringDecodingByUTF8 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         [self dismissAlertController];
 
-        [self showMessageInWebView: stringDecodingByUTF8];
-        
         if ([stringDecodingByUTF8 containsString:@"登录成功"]) {
             [self showAlertViewControllerMessage:@"登陆成功" WithAction: true];
         } else if([stringDecodingByUTF8 containsString:@"You are already logged in"]) {
@@ -92,8 +89,18 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
             [self showAlertViewControllerMessage:@"蜜汁错误" WithAction: true];
         }
         
+        [self showMessageInWebView: stringDecodingByUTF8];
+        // make the flag = 0, to make sure the next time's request will not be effect.
+        self.flag = 0;
     }];
-    [task1 resume];
+    // delay for 1.6s while the timeout of wifi request is 1.5s, so it can make sure task1 always resume after task0.
+    // so that, if wifi request has succeed, there is no need to perform task1.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.flag == 1) {
+             [task1 resume];
+        }
+    });
+    
 }
 
 - (IBAction)logOut:(UIButton *)sender {
@@ -108,25 +115,24 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
     [rq setHTTPMethod:@"POST"];
     [rq setTimeoutInterval:3.f];
     [rq setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
- 
+    
     NSURLSessionTask *task = [self.session downloadTaskWithRequest:rq completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error) {
+            [self dismissAlertController];
+            [self showAlertViewControllerMessage: error.localizedDescription
+                                      WithAction: true];
+            return;
+        }
         NSData *data = [NSData dataWithContentsOfURL:location];
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
         NSString *stringWithGBKEncoding = [[NSString alloc] initWithData:data encoding:encoding];
-        if (!stringWithGBKEncoding) {
-            stringWithGBKEncoding = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        }
-        
+
         [self dismissAlertController];
-        NSLog(@"%@", stringWithGBKEncoding);
-        if ([stringWithGBKEncoding isEqualToString:@""]) {
-            [self showAlertViewControllerMessage:@"退出失败" WithAction: true];
-            [self showMessageInWebView: (NSString *)kErrorHTMLString];
-        } else {
-            [self showAlertViewControllerMessage:@"退出成功" WithAction: true];
-            [self showMessageInWebView: stringWithGBKEncoding];
-        }
+
+        [self showMessageInWebView: stringWithGBKEncoding];
+
     }];
+    
     [task resume];
 }
 
@@ -146,7 +152,6 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
     self.flag = 0;
     NSString *NoticeInfo = @"<!DOCTYPE html><html><head><title></title></head><body><h1>请请注意此功能仅当连接到了swu-wifi或者swu-dorm-wifi才能使用</h1></body></html>";
     
-    
     self.webView.scalesPageToFit = true;
     
     [self showMessageInWebView:NoticeInfo];
@@ -159,12 +164,13 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
 
 
 - (void)showAlertViewControllerMessage:(NSString *)message WithAction:(BOOL)action {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"提示"
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
                                                                    message:message
                                                             preferredStyle:UIAlertControllerStyleAlert];
     if (action) {
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"确定"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:nil];
         [alert addAction:defaultAction];
     }
     [self presentViewController:alert animated:YES completion:nil];
@@ -187,12 +193,17 @@ static const NSString *kErrorHTMLString = @"<!DOCTYPE html><html><head><title></
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    
     id value = change[NSKeyValueChangeNewKey];
     if ([value  isEqual: @2]) {
         self.flag = 0;
         [self showMessageInWebView: (NSString *)kErrorHTMLString];
+        
         [self dismissAlertController];
+        
+        [self showAlertViewControllerMessage:@"登录失败" WithAction:true];
     }
+    
 }
 
 - (void)dealloc {

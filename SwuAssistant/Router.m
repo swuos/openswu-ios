@@ -32,6 +32,7 @@
     
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
     [req setHTTPMethod:@"POST"];
+    [req setTimeoutInterval:1.5f];
     // HTTP body
     NSString *url1 = @"http://urp6.swu.edu.cn/loginSuccess.portal";
     NSString *url2 = @"http://urp6.swu.edu.cn/loginFailure.portal";

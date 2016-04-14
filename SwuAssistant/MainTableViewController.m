@@ -7,10 +7,10 @@
 //
 
 #import "MainTableViewController.h"
+#import "Router.h"
 #import "GradesTableViewController.h"
 #import "LogInViewController.h"
 #import "CourseViewController.h"
-#import "Router.h"
 #import "LogOutViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
@@ -29,9 +29,9 @@
     [self configureNavigationBarItem];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"abc"];
     [self.tableView setTableFooterView:[UIView new]];
+    self.tableView.scrollEnabled = false;
     self.title = @"首页";
-    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"Home"] tag:996];
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -45,7 +45,6 @@
             hud.labelText = @"loading";
             [hud show:YES];
             [self fetchInfo];
-
             _count++;
         }
     }
@@ -106,7 +105,7 @@
 }
 
 - (NSArray<NSString *> *)strings {
-    return @[@"成绩查询", @"课表" , @"退出校园网账号"];
+    return @[@"成绩查询", @"课表" , @"退出OR登陆校园网账号"];
 }
 
 - (void)fetchInfo {
@@ -150,6 +149,13 @@
     NSString *title = [self checkIfLoggedIn] ? @"登出" : @"登陆";
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(logIn)];
     [self.navigationItem setLeftBarButtonItem:leftItem];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SimplyBuilt"] style:UIBarButtonItemStylePlain target:self action:@selector(openBlog)];
+    [self.navigationItem setRightBarButtonItem:rightItem];
+}
+
+- (void)openBlog {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://xuxiaokang.github.io"]];
 }
 
 - (void)logIn {

@@ -15,6 +15,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *courseTeacherLabel;
 @property (weak, nonatomic) IBOutlet UILabel *courseSectionLabel;
 
-//@property (nonatomic, strong) UILabel *courseClassroomLabel;
-
 @end

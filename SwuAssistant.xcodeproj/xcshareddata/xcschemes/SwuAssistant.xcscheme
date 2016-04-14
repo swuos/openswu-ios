@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B904D29D6C2F4DFF8330C59C685D41AA"
+               BlueprintIdentifier = "B30658B5588276DFCFB968FD31B2F680"
                BuildableName = "libPods-SwuAssistant.a"
                BlueprintName = "Pods-SwuAssistant"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
