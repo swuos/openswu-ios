@@ -11,6 +11,10 @@
 @implementation CourseTableViewCell
 
 - (void)awakeFromNib {
+    self.courseNameLabel.text = @"";
+    self.courseTeacherLabel.text = @"";
+    self.courseWeekLabel.text = @"";
+    self.courseSectionLabel.text = @"";
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dict = @[];
     [self.tableView setTableHeaderView:[[GradesTableViewHeaderView alloc] init]];
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
@@ -34,7 +33,6 @@
 - (void)updateDataWithArray:(NSArray *)dict {
     self.dict = dict;
     dispatch_async(dispatch_get_main_queue(), ^{
-        //[self.tableView reloadData];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     });
 }
@@ -49,19 +47,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     GradesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     if ([self.dict count] == 0) {
-        cell.kcmc.text = @"这学期还没有成绩哦。";
-        cell.xf.text = @"";
-        cell.cj.text = @"";
+        cell.courseName.text = @"这学期还没有成绩哦。";
+        cell.coursePoint.text = @"";
+        cell.courseGrade.text = @"";
         return cell;
     }
     if (indexPath.row == 0) {
-        cell.kcmc.text = @"课程名称";
-        cell.cj.text = @"成绩";
-        cell.xf.text = @"学分";
+        cell.courseName.text = @"课程名称";
+        cell.courseGrade.text = @"成绩";
+        cell.coursePoint.text = @"学分";
     } else {
-        cell.kcmc.text = self.dict[indexPath.row][@"kcmc"];
-        cell.cj.text = self.dict[indexPath.row][@"cj"];
-        cell.xf.text = self.dict[indexPath.row][@"xf"];
+        cell.courseName.text = self.dict[indexPath.row][@"kcmc"];
+        cell.courseGrade.text = self.dict[indexPath.row][@"cj"];
+        cell.coursePoint.text = self.dict[indexPath.row][@"xf"];
     }
     return cell;
 }
@@ -73,7 +71,5 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
 }
-
-
 
 @end

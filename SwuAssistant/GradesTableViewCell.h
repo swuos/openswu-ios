@@ -10,9 +10,9 @@
 
 @interface GradesTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel *kcmc;
-@property (nonatomic, strong) UILabel *cj;
-@property (nonatomic, strong) UILabel *xf;
+@property (nonatomic, strong) UILabel *courseName;
+@property (nonatomic, strong) UILabel *courseGrade;
+@property (nonatomic, strong) UILabel *coursePoint;
 
 
 @end

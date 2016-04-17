@@ -17,7 +17,7 @@
 @interface MainTableViewController ()
 
 @property (nonatomic, strong) NSArray<NSString *> *strings;
-@property (nonatomic) NSInteger *count;
+@property (nonatomic) NSInteger count;
 
 @end
 
@@ -37,7 +37,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     if ([self checkIfLoggedIn]) {
         if (self.count == 0) {
