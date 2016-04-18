@@ -117,6 +117,10 @@
 
 - (void)getGradesDicInAcademicYear:(NSString *)xn
                        andSemester:(NSString *)xq {
+    // if the delegate did not exist, there is no need to perform the following http request.
+    if (self.delegate == nil) {
+        return;
+    }
     NSURLSession *session = [NSURLSession sharedSession];
     
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";

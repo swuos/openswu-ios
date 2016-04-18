@@ -13,16 +13,16 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self addSubview:self.kcmc];
-        [self addSubview:self.cj];
-        [self addSubview:self.xf];
+        [self addSubview:self.courseName];
+        [self addSubview:self.courseGrade];
+        [self addSubview:self.coursePoint];
         CGRect rect = CGRectMake(10, 10, [[UIScreen mainScreen] bounds].size.width / 3 * 2, 40);
-        self.kcmc.frame = rect;
+        self.courseName.frame = rect;
         rect.origin.x = rect.origin.x + rect.size.width;
         rect.size.width = 45;
-        self.cj.frame = rect;
+        self.courseGrade.frame = rect;
         rect.origin.x = rect.origin.x + rect.size.width + 20;
-        self.xf.frame = rect;
+        self.coursePoint.frame = rect;
     }
     return self;
 }
@@ -34,25 +34,25 @@
 
 #pragma mark getters
 
-- (UILabel *)kcmc {
-    if (!_kcmc) {
-        _kcmc = [[UILabel alloc] init];
+- (UILabel *)courseName {
+    if (!_courseName) {
+        _courseName = [[UILabel alloc] init];
     }
-    return _kcmc;
+    return _courseName;
 }
 
-- (UILabel *)cj {
-    if (!_cj) {
-        _cj = [[UILabel alloc] init];
+- (UILabel *)courseGrade {
+    if (!_courseGrade) {
+        _courseGrade = [[UILabel alloc] init];
     }
-    return _cj;
+    return _courseGrade;
 }
 
-- (UILabel *)xf {
-    if (!_xf) {
-        _xf = [[UILabel alloc] init];
+- (UILabel *)coursePoint {
+    if (!_coursePoint) {
+        _coursePoint = [[UILabel alloc] init];
     }
-    return _xf;
+    return _coursePoint;
 }
 
 @end
