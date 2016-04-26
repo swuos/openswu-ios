@@ -7,7 +7,6 @@
 //
 
 #import "GradesTableViewHeaderView.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "Router.h"
 
 @interface GradesTableViewHeaderView() <UIPickerViewDataSource, UIPickerViewDelegate>
@@ -20,6 +19,24 @@
 
 @implementation GradesTableViewHeaderView
 
+# pragma mark public method
+
+- (void)setTarget:(id)object Action:(SEL)sel ContorlEvents:(UIControlEvents)event {
+    [self.queryButton addTarget:object action:sel forControlEvents:event];
+}
+
+- (NSArray *)currentSelection {
+
+    NSInteger sem  = [self.pickerViewOne selectedRowInComponent:1];
+    NSInteger year = [self.pickerViewOne selectedRowInComponent:0];
+    
+    return @[
+             [self.arry[year] substringWithRange:NSMakeRange(0,4)],
+             [NSString stringWithFormat:@"%ld", sem+1]
+            ];
+}
+
+# pragma mark help method
 
 - (instancetype)init {
     self = [super init];
@@ -53,51 +70,8 @@
         _queryButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _queryButton.frame = CGRectMake(0, 180, [[UIScreen mainScreen] bounds].size.width, 20);
         [_queryButton setTitle:@"查询" forState:UIControlStateNormal];
-        [_queryButton addTarget:self action:@selector(queryGrades) forControlEvents:UIControlEventTouchUpInside];
     }
     return _queryButton;
-}
-
-
-- (void)queryGrades {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:true];
-    hud.labelText = @"正在查询";
-    [hud show:true];
-        
-    NSInteger xn = [self.pickerViewOne selectedRowInComponent:0];
-    NSInteger xq = [self.pickerViewOne selectedRowInComponent:1];
-    if ([(NSString *)self.arry[0] length] != 9) {
-        [hud hide:YES];
-        UIView *view = [[UIApplication sharedApplication] keyWindow];
-        [MBProgressHUD hideAllHUDsForView:view animated:true];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"网络连接失败";
-        [hud show:YES];
-        [hud hide:YES afterDelay:1.5f];
-        return;
-    }
-    [[Router sharedInstance] getGradesInAcademicYear:[self.arry[xn] substringWithRange:NSMakeRange(0,4)] Semester:[NSString stringWithFormat:@"%ld", xq+1] CompletionHandler:^(NSString *s) {
-
-        if ([s containsString:@"successed"]) {
-        
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [hud hide:YES];
-                });
-
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [hud hide:YES];
-                UIView *view = [[UIApplication sharedApplication] keyWindow];
-                [MBProgressHUD hideAllHUDsForView:view animated:true];
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = s;
-                [hud show:YES];
-                [hud hide:YES afterDelay:1.5f];
-            });
-        }
-    }];
 }
 
 #pragma mark picker view data source and delegate
@@ -129,5 +103,6 @@
         return [NSString stringWithFormat:@"%ld", row + 1];
     }
 }
+
 
 @end

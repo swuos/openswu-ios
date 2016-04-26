@@ -52,11 +52,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CourseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HelloCell" forIndexPath:indexPath];
-
-    cell.courseTeacherLabel.text    = self.courses[indexPath.row].courseClassroom;
-    cell.courseNameLabel.text       = self.courses[indexPath.row].courseName;
-    cell.courseSectionLabel.text    = [self.courses[indexPath.row].courseWeekNumber stringByAppendingString:self.courses[indexPath.row].courseTime];
-    cell.courseWeekLabel.text       = [self.courses[indexPath.row].courseWeekDay stringByAppendingString:self.courses[indexPath.row].courseTeacher];
+    
+    [cell coufigureWithCourse: self.courses[indexPath.row]];
     
     return cell;
 }

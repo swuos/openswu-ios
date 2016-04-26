@@ -10,4 +10,7 @@
 
 @interface GradesTableViewHeaderView : UIView
 
+- (void)setTarget:(id)object Action:(SEL)sel ContorlEvents:(UIControlEvents)event;
+- (NSArray *)currentSelection;
+
 @end

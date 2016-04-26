@@ -10,10 +10,14 @@
 #import "GradesTableViewHeaderView.h"
 #import "GradesTableViewCell.h"
 #import "Router.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
-@interface GradesTableViewController ()<updateData>
+
+@interface GradesTableViewController ()
 
 @property (nonatomic, strong) NSArray *dict;
+@property (nonatomic, strong) GradesTableViewHeaderView *header;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -21,20 +25,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.tableView setTableHeaderView:[[GradesTableViewHeaderView alloc] init]];
+    self.header = [[GradesTableViewHeaderView alloc] init];
+    [self.header setTarget:self Action:@selector(fetchGrades) ContorlEvents:UIControlEventTouchUpInside];
+    [self.tableView setTableHeaderView: self.header];
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
-    [Router sharedInstance].delegate = self;
     
     self.dict = @[@""];
 }
 
-#pragma mark - The Refresh Delegate
-- (void)updateDataWithArray:(NSArray *)dict {
-    self.dict = dict;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    });
+- (void)fetchGrades {
+    NSArray *time = self.header.currentSelection;
+    [self.hud show: true];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.labelText = @"";
+    [[Router sharedInstance] getGradesInAcademicYear: time[0] Semester:time[1] CompletionHandler:^(NSArray *s) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // if there is only one result, may be there are some trouble.
+            if (s.count == 1) {
+                if ([s[0] isKindOfClass:[NSError class]]) {
+                    NSError *error = s[0];
+                    self.hud.labelText = error.localizedDescription;
+                    self.hud.mode = MBProgressHUDModeText;
+                    [self.hud hide:true afterDelay:1.0f];
+                    return;
+                }
+            }
+            
+            [self.hud hide:YES];
+            self.dict = s;
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+
+        });
+    }];
 }
 
 #pragma mark - Table view data source
@@ -72,4 +95,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:true];
 }
 
+# pragma mark - getters 
+
+- (MBProgressHUD *)hud {
+    if (!_hud) {
+        _hud = [[MBProgressHUD alloc] initWithView: self.view];
+        [self.view addSubview:_hud];
+    }
+    return _hud;
+}
 @end

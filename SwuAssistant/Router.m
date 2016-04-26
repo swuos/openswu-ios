@@ -64,7 +64,7 @@
 
 - (void)getGradesInAcademicYear:(NSString *)year
                        Semester:(NSString *)semester
-              CompletionHandler:(void(^)(NSString *))block{
+              CompletionHandler:(void(^)(NSArray *))block{
     
     NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
     NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
@@ -76,19 +76,19 @@
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
+            
+            block(@[error]);
+            
             return;
         }
         
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        if (!string) {
-            block(@"the server has some trouble");
-            return;
-        }
+
         
         NSRange position = [string rangeOfString:@"<input type=\"hidden\" id=\"sessionUserKey\" value=\""];
         if (position.length <= 0) {
-            block(@"the server has some trouble");
+            NSError *error = [NSError errorWithDomain:@"the server has some trouble" code:2 userInfo:nil];
+            block(@[error]);
             return;
         }
         
@@ -98,14 +98,13 @@
         
         self.SWUID = userKey;
         
-        [self getGradesDicInAcademicYear:year andSemester:semester];
+        [self getGradesDicInAcademicYear:year andSemester:semester CompletionHandler:block];
         
-        block(@"successed");
     }];
     
     NSURLSessionTask *task0 = [session dataTaskWithRequest:request0 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
+            block(@[error]);
             return;
         }
         [task1 resume];
@@ -116,11 +115,9 @@
 }
 
 - (void)getGradesDicInAcademicYear:(NSString *)xn
-                       andSemester:(NSString *)xq {
-    // if the delegate did not exist, there is no need to perform the following http request.
-    if (self.delegate == nil) {
-        return;
-    }
+                       andSemester:(NSString *)xq
+                 CompletionHandler:(void(^)(NSArray *))block{
+
     NSURLSession *session = [NSURLSession sharedSession];
     
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";
@@ -131,16 +128,16 @@
     
     NSURLSessionTask *task2 = [session dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            [self.delegate updateDataWithArray:@[@"fail"]];
+            block(@[error]);
             return;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        [self.delegate updateDataWithArray:dict[@"items"]];
+        block(dict[@"items"]);
     }];
     [task2 resume];
 }
 
-- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block {
+- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray *))block {
     NSString *url = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=%@", self.SWUID];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];

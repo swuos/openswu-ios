@@ -7,20 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class Course;
-
-@protocol updateData <NSObject>
-
-- (void)updateDataWithArray:(NSArray *)array;
-
-@end
-
 
 @interface Router : NSObject
 
 @property (nonatomic, strong) NSString *SWUID;
-
-@property (nonatomic, weak) id<updateData> delegate;
 
 + (Router *)sharedInstance;
 
@@ -30,8 +22,8 @@
 
 - (void)getGradesInAcademicYear:(NSString *)year
                        Semester:(NSString *)semester
-              CompletionHandler:(void(^)(NSString *))block;
+              CompletionHandler:(void(^)(NSArray *))block;
 
-- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block;
+- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray *))block;
 
 @end

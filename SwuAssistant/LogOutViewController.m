@@ -33,14 +33,14 @@
             self.resultLabel.text = cString;
             self.hud.labelText = cString;
             self.hud.mode = MBProgressHUDModeText;
-            [self.hud hide:true afterDelay:2.0f];
+            [self.hud hide:true afterDelay:1.5f];
         });
     } FailureBlock:^(NSString *fString) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.resultLabel.text = fString;
             self.hud.labelText = fString;
             self.hud.mode = MBProgressHUDModeText;
-            [self.hud hide:true afterDelay:2.0f];
+            [self.hud hide:true afterDelay:1.5f];
         });
     }];
 }
@@ -55,14 +55,14 @@
             self.resultLabel.text = completion;
             self.hud.labelText = completion;
             self.hud.mode = MBProgressHUDModeText;
-            [self.hud hide:true afterDelay:2.0f];
+            [self.hud hide:true afterDelay:1.5f];
         });
     } FailureBlock:^(NSString *failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.hud.labelText = failure;
             self.resultLabel.text = failure;
             self.hud.mode = MBProgressHUDModeText;
-            [self.hud hide:true afterDelay:2.0f];
+            [self.hud hide:true afterDelay:1.5f];
         });
     }];
 }
@@ -92,10 +92,5 @@
     }
     return _hud;
 }
-
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"flag"];
-}
-
 
 @end

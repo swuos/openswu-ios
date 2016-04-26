@@ -31,31 +31,33 @@
 }
 
 - (void)logInWithCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
-    dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-    __block int flag = 0;
-    __block NSString *tmp = @"";
-    [self logInClassCompletionBlock: ^(NSString *c) {
-        flag = 1;
-        ComBlock(@"登录成功");
-        dispatch_semaphore_signal(sem);
-    } FailureBlock:^(NSString *f) {
-        flag = 0;
-        tmp = f;
-        dispatch_semaphore_signal(sem);
-    }];
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-    if (flag == 1) {
-        return;
-    }
-    if ((![tmp containsString:@"未知错误"] && ![tmp containsString:@"登录失败"])) {
-        FailureBlock(tmp);
-    }
-    [self logInDormCompletionBlock:^(NSString *c) {
-        ComBlock(@"登录成功");
-    } FailureBlock:^(NSString *f) {
-        FailureBlock(f);
-    }];
-    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+        __block int flag = 0;
+        __block NSString *tmp = @"";
+        [self logInClassCompletionBlock: ^(NSString *c) {
+            flag = 1;
+            ComBlock(@"登录成功");
+            dispatch_semaphore_signal(sem);
+        } FailureBlock:^(NSString *f) {
+            flag = 0;
+            tmp = f;
+            dispatch_semaphore_signal(sem);
+        }];
+        dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+        if (flag == 1) {
+            return;
+        }
+        if ((![tmp containsString:@"未知错误"] && ![tmp containsString:@"登录失败"])) {
+            FailureBlock(tmp);
+        }
+        [self logInDormCompletionBlock:^(NSString *c) {
+            ComBlock(@"登录成功");
+        } FailureBlock:^(NSString *f) {
+            FailureBlock(f);
+        }];
+    });
 }
 
 - (void)logInDormCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {

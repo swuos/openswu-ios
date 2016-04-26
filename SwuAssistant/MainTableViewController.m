@@ -16,8 +16,8 @@
 
 @interface MainTableViewController ()
 
-@property (nonatomic, strong) NSArray<NSString *> *strings;
 @property (nonatomic) NSInteger count;
+@property (nonatomic) NSInteger networkFlag;
 
 @end
 
@@ -31,7 +31,7 @@
     [self.tableView setTableFooterView:[UIView new]];
     self.tableView.scrollEnabled = false;
     self.title = @"首页";
-    
+    self.networkFlag = 0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -70,11 +70,22 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
+
     UIViewController *controller;
     if (indexPath.row == 2) {
         controller = [[CourseViewController alloc] init];
-    } else {
+    } else if (indexPath.row == 1) {
+        if (!self.networkFlag) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"请检查网络连接";
+            [hud show:YES];
+            [hud hide:YES afterDelay:1.5f];
+            return;
+        }
         controller = [[GradesTableViewController alloc] init];
+    } else {
+        return;
     }
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -116,19 +127,15 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             if ([cc containsString:@"successed"]) {
-                [[Router sharedInstance] getGradesInAcademicYear:@"2014" Semester:@"1" CompletionHandler:^(NSString *s) {
-                    //Anyway after request has been handled, the hud should be hidden?
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideAllHUDsForView:self.view animated:true];
-                        
-                        if (![s containsString:@"successed"]) {
+                [[Router sharedInstance] getGradesInAcademicYear:@"2014" Semester:@"1" CompletionHandler:^(NSArray *s) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             [MBProgressHUD hideAllHUDsForView:self.view animated:true];
                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                             hud.mode = MBProgressHUDModeText;
-                            hud.labelText = s;
+                            hud.labelText = @"登陆成功";
+                            self.networkFlag = 1;
                             [hud show:YES];
                             [hud hide:YES afterDelay:1.5f];
-                        }
                     });
                 }];
             } else {
@@ -137,6 +144,7 @@
                     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"网络连接失败";
+                    self.networkFlag = 0;
                     [hud show:YES];
                     [hud hide:YES afterDelay:1.5f];
                 });

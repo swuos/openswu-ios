@@ -44,13 +44,16 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"]) {
-        NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
-        NSString *pass = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
-         [[Router sharedInstance] loginWithName: name Password: pass CompletionHandler:^(NSString *cc) {
-             
-         }];
-    }
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"]) {
+            NSString *name = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
+            NSString *pass = [[NSUserDefaults standardUserDefaults] valueForKey:@"userkey"];
+             [[Router sharedInstance] loginWithName: name Password: pass CompletionHandler:^(NSString *cc) {
+                 
+             }];
+        }
+    });
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
