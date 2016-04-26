@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2729EC1CCF0F2400175C7F /* AccountLogInOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2729EB1CCF0F2400175C7F /* AccountLogInOut.m */; };
 		0A6953751C8203B70095216F /* CourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953741C8203B70095216F /* CourseViewController.m */; };
 		0A6953781C82B2CD0095216F /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6953771C82B2CD0095216F /* Course.m */; };
 		0AAB66E81C9C504A00E70B67 /* LogOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB66E61C9C504A00E70B67 /* LogOutViewController.m */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A2729EA1CCF0F2400175C7F /* AccountLogInOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountLogInOut.h; sourceTree = "<group>"; };
+		0A2729EB1CCF0F2400175C7F /* AccountLogInOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountLogInOut.m; sourceTree = "<group>"; };
 		0A6953731C8203B70095216F /* CourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseViewController.h; sourceTree = "<group>"; };
 		0A6953741C8203B70095216F /* CourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseViewController.m; sourceTree = "<group>"; };
 		0A6953761C82B2CD0095216F /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				0AAB66E51C9C504A00E70B67 /* LogOutViewController.h */,
 				0AAB66E61C9C504A00E70B67 /* LogOutViewController.m */,
 				0AAB66E71C9C504A00E70B67 /* LogOutViewController.xib */,
+				0A2729EA1CCF0F2400175C7F /* AccountLogInOut.h */,
+				0A2729EB1CCF0F2400175C7F /* AccountLogInOut.m */,
 			);
 			name = AccountLogOut;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				6B59FC2C1C523A4D00FB0E82 /* GradesTableViewHeaderView.m in Sources */,
 				6B5CE4871C533BE300291CC2 /* GradesTableViewCell.m in Sources */,
 				6B2FEF651C509B790001C91E /* AppDelegate.m in Sources */,
+				0A2729EC1CCF0F2400175C7F /* AccountLogInOut.m in Sources */,
 				0A6953781C82B2CD0095216F /* Course.m in Sources */,
 				6B2FEF8D1C50A7560001C91E /* LogInViewController.m in Sources */,
 				6B2FEF621C509B790001C91E /* main.m in Sources */,
