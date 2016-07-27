@@ -31,7 +31,7 @@
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.tableView  registerClass:[GradesTableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
     
-    self.dict = @[@""];
+    self.dict = @[];
 }
 
 - (void)fetchGrades {
@@ -55,7 +55,6 @@
             [self.hud hide:YES];
             self.dict = s;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-
         });
     }];
 }
@@ -63,7 +62,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.dict count] != 0 ? [self.dict count] : 1;
+    return [self.dict count] != 0 ? [self.dict count] +  1 : 1;
 }
 
 
@@ -80,9 +79,9 @@
         cell.courseGrade.text = @"成绩";
         cell.coursePoint.text = @"学分";
     } else {
-        cell.courseName.text = self.dict[indexPath.row][@"kcmc"];
-        cell.courseGrade.text = self.dict[indexPath.row][@"cj"];
-        cell.coursePoint.text = self.dict[indexPath.row][@"xf"];
+        cell.courseName.text = self.dict[indexPath.row-1][@"kcmc"];
+        cell.courseGrade.text = self.dict[indexPath.row-1][@"cj"];
+        cell.coursePoint.text = self.dict[indexPath.row-1][@"xf"];
     }
     return cell;
 }

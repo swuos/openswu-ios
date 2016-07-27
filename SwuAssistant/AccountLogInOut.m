@@ -62,7 +62,9 @@
 
 - (void)logInDormCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
     NSURL *DormWifiURL = [NSURL URLWithString:@"http://222.198.120.8:8080/loginPhoneServlet"];
-    NSMutableURLRequest *dormWifiRequest = [[NSMutableURLRequest alloc] initWithURL:DormWifiURL];
+    NSMutableURLRequest *dormWifiRequest = [[NSMutableURLRequest alloc] initWithURL:DormWifiURL
+                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                                    timeoutInterval:3.f];
     NSString *dormWifiBody = [NSString stringWithFormat:@"username=%@&password=%@&loginTime=%f", [self.username lowercaseString], self.userpass, [[NSDate date] timeIntervalSince1970]];
     [dormWifiRequest setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
     
@@ -97,7 +99,9 @@
 - (void)logInClassCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
     NSURL *SWUWifiURL = [NSURL URLWithString:@"http://202.202.96.57:9060/login/login1.jsp"];
     
-    NSMutableURLRequest *wifiRequest = [[NSMutableURLRequest alloc] initWithURL:SWUWifiURL];
+    NSMutableURLRequest *wifiRequest = [[NSMutableURLRequest alloc] initWithURL:SWUWifiURL
+                                                                    cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                                timeoutInterval:3.f];
     
     NSString *WifiBody = [NSString stringWithFormat:@"username=%@&password=%@&if_login=&B2=", [self.username lowercaseString], self.userpass];
     
@@ -135,7 +139,9 @@
     
     NSURL *url = [NSURL URLWithString:@"http://service.swu.edu.cn/fee/remote_logout2.jsp"];
     
-    NSMutableURLRequest *rq = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSMutableURLRequest *rq = [[NSMutableURLRequest alloc] initWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:3.f];
     
     NSString *body = [NSString stringWithFormat:@"username=%@&password=%@&B1=", self.username, self.userpass];
     
