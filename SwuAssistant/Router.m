@@ -30,7 +30,12 @@
              Password:(NSString *)password
     CompletionHandler:(void (^)(NSString *))completionBlock {
     
-    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://urp6.swu.edu.cn/userPasswordValidate.portal"]];
+    NSString *hostString = @"urp6.swu.edu.cn";
+    NSString *pathString = @"/userPasswordValidate.portal";
+    
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[self urlWitHost:hostString
+                                                                                    Path:pathString
+                                                                              Parameters:nil]];
     [req setHTTPMethod:@"POST"];
     [req setTimeoutInterval:1.5f];
     // HTTP body
@@ -64,31 +69,39 @@
 
 - (void)getGradesInAcademicYear:(NSString *)year
                        Semester:(NSString *)semester
-              CompletionHandler:(void(^)(NSString *))block{
+              CompletionHandler:(void(^)(NSArray *))block{
+//    NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
+//    NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
     
-    NSString *urlString0 = @"http://jw.swu.edu.cn/jwglxt/idstar/index.jsp";
-    NSString *urlString1 = @"http://jw.swu.edu.cn/jwglxt/xtgl/index_initMenu.html";
+    NSString *hostString = @"jw.swu.edu.cn";
+    NSString *pathString1 = @"/jwglxt/idstar/index.jsp";
+    NSString *pathString2 = @"/jwglxt/xtgl/index_initMenu.html";
+
 
     NSURLSession *session = [NSURLSession sharedSession];
     
-    NSMutableURLRequest *request0 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString0]];
-    NSMutableURLRequest *request1 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString1]];
+    NSMutableURLRequest *request0 = [[NSMutableURLRequest alloc] initWithURL:[self urlWitHost:hostString
+                                                                                         Path:pathString1
+                                                                                   Parameters:nil]];
+    NSMutableURLRequest *request1 = [[NSMutableURLRequest alloc] initWithURL:[self urlWitHost:hostString
+                                                                                         Path:pathString2
+                                                                                   Parameters:nil]];
 
     NSURLSessionTask *task1 = [session dataTaskWithRequest:request1 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
+            
+            block(@[error]);
+            
             return;
         }
         
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        if (!string) {
-            block(@"the server has some trouble");
-            return;
-        }
+
         
         NSRange position = [string rangeOfString:@"<input type=\"hidden\" id=\"sessionUserKey\" value=\""];
         if (position.length <= 0) {
-            block(@"the server has some trouble");
+            NSError *error = [NSError errorWithDomain:@"the server has some trouble" code:2 userInfo:nil];
+            block(@[error]);
             return;
         }
         
@@ -98,14 +111,13 @@
         
         self.SWUID = userKey;
         
-        [self getGradesDicInAcademicYear:year andSemester:semester];
+        [self getGradesDicInAcademicYear:year andSemester:semester CompletionHandler:block];
         
-        block(@"successed");
     }];
     
     NSURLSessionTask *task0 = [session dataTaskWithRequest:request0 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            block([NSString stringWithFormat:@"%@", error.localizedDescription]);
+            block(@[error]);
             return;
         }
         [task1 resume];
@@ -116,33 +128,50 @@
 }
 
 - (void)getGradesDicInAcademicYear:(NSString *)xn
-                       andSemester:(NSString *)xq {
-    // if the delegate did not exist, there is no need to perform the following http request.
-    if (self.delegate == nil) {
-        return;
-    }
+                       andSemester:(NSString *)xq
+                 CompletionHandler:(void(^)(NSArray *))block{
     NSURLSession *session = [NSURLSession sharedSession];
-    
     NSString *xqstr = [xq  isEqual: @"1"] ?  @"3": @"12";
+
+    NSString *hostString = @"jw.swu.edu.cn";
+    NSString *pathString = @"/jwglxt/cjcx/cjcx_cxDgXscj.html";
+    NSDictionary *para = @{@"gnmkdmKey"             : @"N253508",
+                           @"sessionUserKey"        : self.SWUID,
+                           @"doType"                : @"query",
+                           @"xnm"                   : xn,
+                           @"xqm"                   : xqstr,
+                           @"_search"               : @"false",
+                           @"nd"                    : @"1453455899708",
+                           @"queryModel.showCount"  :@"30",
+                           @"queryModel.currentPage":@"1",
+                           @"queryModel.sortName"   : @"",
+                           @"queryModel.sortOrder"  :@"asc",
+                           @"time"                  :@"0"};
     
-    NSString *urlString = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/cjcx/cjcx_cxDgXscj.html?doType=query&gnmkdmKey=N305005&sessionUserKey=%@&xnm=%@&xqm=%@&_search=false&nd=1453455899708&queryModel.showCount=30&queryModel.currentPage=1&queryModel.sortName=&queryModel.sortOrder=asc&time=0",self.SWUID, xn, xqstr];
-    
-    NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] initWithURL: [self urlWitHost:hostString
+                                                                                          Path:pathString
+                                                                                    Parameters:para]];
     
     NSURLSessionTask *task2 = [session dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            [self.delegate updateDataWithArray:@[@"fail"]];
+            block(@[error]);
             return;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        [self.delegate updateDataWithArray:dict[@"items"]];
+        block(dict[@"items"]);
     }];
     [task2 resume];
 }
 
-- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray<Course *> *))block {
-    NSString *url = [NSString stringWithFormat:@"http://jw.swu.edu.cn/jwglxt/kbcx/xskbcx_cxXsKb.html?gnmkdmKey=N253508&sessionUserKey=%@", self.SWUID];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+- (void)fetchCourseContentsCompletionHandler:(void(^)(NSArray *))block {
+    NSString *hostString = @"jw.swu.edu.cn";
+    NSString *pathString = @"/jwglxt/kbcx/xskbcx_cxXsKb.html";
+    NSDictionary *para = @{@"gnmkdmKey": @"N253508",
+                           @"sessionUserKey": self.SWUID};
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self urlWitHost:hostString
+                                                                                   Path:pathString
+                                                                             Parameters:para]];
     [request setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sharedSession];
     NSString *string = [NSString stringWithFormat:@"xnm=%@&xqm=%@", [self getCurrentYear], [self getCurrentSemester]];
@@ -189,6 +218,26 @@
     } else {
         return @"12";
     }
+}
+
+
+#pragma mark - helper method 
+
+- (NSURL *)urlWitHost:(NSString *) host Path:(NSString *)path Parameters:(NSDictionary *) para {
+    NSURLComponents *urlComponents = [[NSURLComponents alloc] init];
+    urlComponents.host = host;
+    urlComponents.scheme = @"http";
+    urlComponents.path = path;
+    
+    NSMutableArray *arry = [[NSMutableArray alloc] initWithCapacity:para.count];
+    
+    for (NSString *key in para) {
+        NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:para[key]];
+        [arry addObject:item];
+    }
+    urlComponents.queryItems = arry;
+    
+    return urlComponents.URL;
 }
 
 @end

@@ -31,36 +31,40 @@
 }
 
 - (void)logInWithCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
-    dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-    __block int flag = 0;
-    __block NSString *tmp = @"";
-    [self logInClassCompletionBlock: ^(NSString *c) {
-        flag = 1;
-        ComBlock(@"登录成功");
-        dispatch_semaphore_signal(sem);
-    } FailureBlock:^(NSString *f) {
-        flag = 0;
-        tmp = f;
-        dispatch_semaphore_signal(sem);
-    }];
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-    if (flag == 1) {
-        return;
-    }
-    if ((![tmp containsString:@"未知错误"] && ![tmp containsString:@"登录失败"])) {
-        FailureBlock(tmp);
-    }
-    [self logInDormCompletionBlock:^(NSString *c) {
-        ComBlock(@"登录成功");
-    } FailureBlock:^(NSString *f) {
-        FailureBlock(f);
-    }];
-    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+        __block int flag = 0;
+        __block NSString *tmp = @"";
+        [self logInClassCompletionBlock: ^(NSString *c) {
+            flag = 1;
+            ComBlock(@"登录成功");
+            dispatch_semaphore_signal(sem);
+        } FailureBlock:^(NSString *f) {
+            flag = 0;
+            tmp = f;
+            dispatch_semaphore_signal(sem);
+        }];
+        dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+        if (flag == 1) {
+            return;
+        }
+        if ((![tmp containsString:@"未知错误"] && ![tmp containsString:@"登录失败"])) {
+            FailureBlock(tmp);
+        }
+        [self logInDormCompletionBlock:^(NSString *c) {
+            ComBlock(@"登录成功");
+        } FailureBlock:^(NSString *f) {
+            FailureBlock(f);
+        }];
+    });
 }
 
 - (void)logInDormCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
     NSURL *DormWifiURL = [NSURL URLWithString:@"http://222.198.120.8:8080/loginPhoneServlet"];
-    NSMutableURLRequest *dormWifiRequest = [[NSMutableURLRequest alloc] initWithURL:DormWifiURL];
+    NSMutableURLRequest *dormWifiRequest = [[NSMutableURLRequest alloc] initWithURL:DormWifiURL
+                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                                    timeoutInterval:3.f];
     NSString *dormWifiBody = [NSString stringWithFormat:@"username=%@&password=%@&loginTime=%f", [self.username lowercaseString], self.userpass, [[NSDate date] timeIntervalSince1970]];
     [dormWifiRequest setCachePolicy: NSURLRequestReloadIgnoringLocalCacheData];
     
@@ -95,7 +99,9 @@
 - (void)logInClassCompletionBlock:(completionblock)ComBlock FailureBlock:(completionblock)FailureBlock {
     NSURL *SWUWifiURL = [NSURL URLWithString:@"http://202.202.96.57:9060/login/login1.jsp"];
     
-    NSMutableURLRequest *wifiRequest = [[NSMutableURLRequest alloc] initWithURL:SWUWifiURL];
+    NSMutableURLRequest *wifiRequest = [[NSMutableURLRequest alloc] initWithURL:SWUWifiURL
+                                                                    cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                                timeoutInterval:3.f];
     
     NSString *WifiBody = [NSString stringWithFormat:@"username=%@&password=%@&if_login=&B2=", [self.username lowercaseString], self.userpass];
     
@@ -133,7 +139,9 @@
     
     NSURL *url = [NSURL URLWithString:@"http://service.swu.edu.cn/fee/remote_logout2.jsp"];
     
-    NSMutableURLRequest *rq = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSMutableURLRequest *rq = [[NSMutableURLRequest alloc] initWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:3.f];
     
     NSString *body = [NSString stringWithFormat:@"username=%@&password=%@&B1=", self.username, self.userpass];
     

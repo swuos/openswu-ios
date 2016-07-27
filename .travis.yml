@@ -2,3 +2,4 @@ language: objective-c
 xcode_workspace: SwuAssistant.xcworkspace
 xcode_scheme: SwuAssistant
 cache: cocoapods
+script: xctool -sdk iphonesimulator -workspace SwuAssistant.xcworkspace -scheme SwuAssistant build test

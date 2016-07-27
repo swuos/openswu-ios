@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/xuxiaokang/openswu-ios.svg?branch=master)](https://travis-ci.org/xuxiaokang/openswu-ios)
 
-bad news!
+
+Bad news!
 
 I submit the next version last night 4/15/2016.
 But today, I was told to remove this from AppleStore because of the owner of the apple developer account.

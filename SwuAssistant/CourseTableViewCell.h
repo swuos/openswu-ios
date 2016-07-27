@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Course;
+
 @interface CourseTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *courseNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *courseWeekLabel;
-@property (weak, nonatomic) IBOutlet UILabel *courseTeacherLabel;
-@property (weak, nonatomic) IBOutlet UILabel *courseSectionLabel;
+- (void)coufigureWithCourse: (Course *)course;
 
 @end

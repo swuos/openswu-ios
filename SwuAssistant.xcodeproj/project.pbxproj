@@ -97,7 +97,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0AAB66EA1C9C505400E70B67 /* AccountLogOut */ = {
+		0AAB66EA1C9C505400E70B67 /* AccountLogInOut */ = {
 			isa = PBXGroup;
 			children = (
 				0AAB66E51C9C504A00E70B67 /* LogOutViewController.h */,
@@ -106,7 +106,7 @@
 				0A2729EA1CCF0F2400175C7F /* AccountLogInOut.h */,
 				0A2729EB1CCF0F2400175C7F /* AccountLogInOut.m */,
 			);
-			name = AccountLogOut;
+			name = AccountLogInOut;
 			sourceTree = "<group>";
 		};
 		0AB970011C61E36300F9BC53 /* MainInterface */ = {
@@ -164,7 +164,7 @@
 		6B2FEF5F1C509B790001C91E /* SwuAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				0AAB66EA1C9C505400E70B67 /* AccountLogOut */,
+				0AAB66EA1C9C505400E70B67 /* AccountLogInOut */,
 				0AC681B41C8C279B00F9C004 /* Course */,
 				0AB970011C61E36300F9BC53 /* MainInterface */,
 				6B5CE48D1C5377E000291CC2 /* Login */,
@@ -296,7 +296,6 @@
 				TargetAttributes = {
 					6B2FEF5C1C509B790001C91E = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = N7AS3FZ2RC;
 					};
 					6B2FEF781C509B790001C91E = {
 						CreatedOnToolsVersion = 7.2;
@@ -462,7 +461,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -506,8 +504,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -534,8 +531,7 @@
 			baseConfigurationReference = 693822F5FBF00390AEC1C7D7 /* Pods-SwuAssistant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = SwuAssistant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -551,8 +547,7 @@
 			baseConfigurationReference = 223328DC8BE643A675FBAA17 /* Pods-SwuAssistant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = SwuAssistant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -597,7 +592,7 @@
 				6B2FEF811C509B790001C91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		6B2FEF821C509B790001C91E /* Build configuration list for PBXNativeTarget "SwuAssistant" */ = {
 			isa = XCConfigurationList;
@@ -606,7 +601,7 @@
 				6B2FEF841C509B790001C91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		6B2FEF851C509B790001C91E /* Build configuration list for PBXNativeTarget "SwuAssistantTests" */ = {
 			isa = XCConfigurationList;
@@ -615,7 +610,7 @@
 				6B2FEF871C509B790001C91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

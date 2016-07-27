@@ -14,5 +14,4 @@
 @property (nonatomic, strong) UILabel *courseGrade;
 @property (nonatomic, strong) UILabel *coursePoint;
 
-
 @end
